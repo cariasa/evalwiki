@@ -21,7 +21,6 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 App::uses('Controller', 'Controller');
-
 /**
  * Application Controller
  *
@@ -31,5 +30,21 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
 class AppController extends Controller {
+	protected function _isSysop($user_id) {
+        $db = ConnectionManager::getDataSource('default');
+        $db->rawQuery("SELECT user_name FROM user JOIN user_groups ON user_id=ug_user WHERE ug_group = 'sysop' and user_id = ".$user_id.";");
+        return $db->hasResult();
+	}
+
+	protected function _isTeacher($user_id) {
+		pr($this->Teacher->find('count', array('conditions' => array('Teacher.id', $user_id))));
+		
+		if ($this->Teacher->find('count', array('conditions' => array('Teacher.id', $user_id))) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}	
 }
