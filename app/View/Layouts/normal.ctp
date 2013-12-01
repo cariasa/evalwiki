@@ -30,7 +30,6 @@
 	<?php echo $this->Html->link('Wiki Facultad Ingeniería | UNITEC', 'http://fi.unitec.edu/wiki') ?>
 	</footer> 
 
-	<?php echo $this->Html->script(array('bootstrap.min', 'jquery.min')); ?>
-	<?php echo $this->element('sql_dump'); ?>
+	<?php echo $this->Html->script(array('https://code.jquery.com/jquery.min.js', 'bootstrap.min')); ?>
 </body>
 </html>
