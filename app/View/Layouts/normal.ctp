@@ -18,7 +18,7 @@
 		    	<span class="icon-bar"></span>
 		    </button>
 		    <?php echo $this->Html->image('logofi.png', array('id' => 'filogo', 'alt' => 'Logo Facultad')); ?>
-		    <?php echo $this->Html->link('Wiki-Eval', '#', array('class' => 'navbar-brand')); ?>
+		    <?php echo $this->Html->link('Wiki-Eval', array('controller' => 'users', 'action' => 'home'), array('class' => 'navbar-brand')); ?>
 		</div>
 		<div class="navbar-right">
 			<?php echo $this->Html->link('Cerrar Sesion', array('controller' => 'users', 'action' => 'logout'), array('class' => 'btn btn-danger')); ?>

@@ -8,7 +8,7 @@ class UsersController extends AppController {
 
 	public function login() {
 		if ($this->Session->check('User.id')) {
-			$this->redirect(array('action' => 'display'));
+			$this->redirect(array('action' => 'home'));
 		}
 
 		$this->layout = 'only_bar';
@@ -29,7 +29,7 @@ class UsersController extends AppController {
 				$pass_parts = preg_split('/[:]/', $correct_password['User']['user_password']);
 				if ($pass_parts[3] == md5($pass_parts[2]."-".md5($pass))) {
 					$this->Session->write('User.id', $correct_password['User']['user_id']);
-					$this->redirect(array('action' => 'display'));
+					$this->redirect(array('action' => 'home'));
 				} else {
 					$this->Session->setFlash('El usuario y/o contraseña no son correctos');
 				}
@@ -37,7 +37,7 @@ class UsersController extends AppController {
 		}
 	}
 
-	public function display() {
+	public function home() {
 		if (!$this->Session->check('User.id')) {
 			$this->redirect(array('action' => 'logIn'));
 		}

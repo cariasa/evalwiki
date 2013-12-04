@@ -31,4 +31,23 @@ footer {
 .navbar-right {
 	padding: 0.6%;
 }
+
+.home-option {
+	border-radius: 20px;
+	background-color: #9F3ED5; 
+	padding: 2%;
+	text-align: center;
+}
+
+.home-option > a {
+	margin: 3%;
+}
+
+.home-option > h2 {
+	text-align: center;
+}
+
+.row {
+	margin: 2%;
+}
 /*____________________________________________________________________________*/
