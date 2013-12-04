@@ -1,11 +1,8 @@
 <main class="col-md-10 col-md-offset-1">
-	<?php if (!is_null($saved)): ?>
-		<?php if ($saved): ?>
-			<?php echo $this->Session->flash('flash', array('element' => 'success-dismissable')); ?>
-		<?php else: ?>
-			<?php echo $this->Session->flash('flash', array('element' => 'failure-dismissable')); ?>
-		<?php endif; ?>
-	<?php endif; ?>
+	<?php
+		echo $this->Session->flash('success-dismissable');
+		echo $this->Session->flash('failure-dismissable');
+	?>
 	<h2>Agregar Profesor</h2>
 	<?php
 		echo $this->Form->create('Teacher', array('class' => 'form-horizontal',

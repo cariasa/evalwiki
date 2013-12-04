@@ -2,6 +2,22 @@
 
 class UsersController extends AppController {
 
+	protected function _isSysop($user_id) {
+        $db = $this->User->getDataSource();
+        $result = $db->fetchAll("SELECT user_name FROM user JOIN user_groups ON user_id=ug_user WHERE ug_group = 'sysop' and user_id = ".$user_id.";");
+        return count($result) != 0 ? true : false;
+	}
+
+	protected function _isTeacher($user_id) {
+		$this->loadModel('Teacher');
+
+		if (count($this->Teacher->find('list', array('conditions' => array('Teacher.id' => $user_id)))) > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public function index() {
 		$this->redirect(array('action' => 'logIn'));
 	}
@@ -24,14 +40,18 @@ class UsersController extends AppController {
 				));
 			
 			if (!$correct_password) {
-				$this->Session->setFlash('El usuario y/o contraseña no son correctos');
+				$this->Session->setFlash('El usuario y/o contraseña no son correctos.');
 			} else {
 				$pass_parts = preg_split('/[:]/', $correct_password['User']['user_password']);
 				if ($pass_parts[3] == md5($pass_parts[2]."-".md5($pass))) {
-					$this->Session->write('User.id', $correct_password['User']['user_id']);
-					$this->redirect(array('action' => 'home'));
+					if ($this->_isSysop($correct_password['User']['user_id']) || $this->_isTeacher($correct_password['User']['user_id'])) {
+						$this->Session->write('User.id', $correct_password['User']['user_id']);
+						$this->redirect(array('action' => 'home'));
+					} else {
+						$this->Session->setFlash('Usted no posee permisos para entrar al sistema.');
+					}
 				} else {
-					$this->Session->setFlash('El usuario y/o contraseña no son correctos');
+					$this->Session->setFlash('El usuario y/o contraseña no son correctos.');
 				}
 			}
 		}

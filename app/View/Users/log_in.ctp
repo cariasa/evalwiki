@@ -10,7 +10,8 @@
 		'div' => 'form-group',
 		'label' => 'Usuario',
 		'class' => 'form-control',
-		'placeholder' => 'Usuario del wiki'));
+		'placeholder' => 'Usuario del wiki',
+		'autofocus'));
 	echo $this->Form->input('User.password', array(
 		'div' => 'form-group',
 		'type' => 'password',

@@ -32,19 +32,5 @@ App::uses('Controller', 'Controller');
  */
 
 class AppController extends Controller {
-	protected function _isSysop($user_id) {
-        $db = ConnectionManager::getDataSource('default');
-        $db->rawQuery("SELECT user_name FROM user JOIN user_groups ON user_id=ug_user WHERE ug_group = 'sysop' and user_id = ".$user_id.";");
-        return $db->hasResult();
-	}
-
-	protected function _isTeacher($user_id) {
-		pr($this->Teacher->find('count', array('conditions' => array('Teacher.id', $user_id))));
-		
-		if ($this->Teacher->find('count', array('conditions' => array('Teacher.id', $user_id))) == 1) {
-			return true;
-		} else {
-			return false;
-		}
-	}	
+	
 }
