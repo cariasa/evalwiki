@@ -8,9 +8,11 @@
 		echo $this->Form->create('MainPage', array('class' => 'form-horizontal',
 													'action' => 'add'));
 		echo $this->Form->select('page_id', $pages, array('escape' => false, 'empty' => false, 'class' => 'form-control'));
+		echo $this->Form->input('MainPage.course_name', array('label' => 'Nombre del Curso', 'class'=>'form-control'));
+		echo $this->Form->input('MainPage.course_code', array('label' => 'Code del Curso', 'class'=>'form-control'));
 	?>
 
-	<div class="form-group">
+	<!--div class="form-group">
 		<label class="control-label">Nombre del Curso</label>
 		<input type="text" class="form-control" name="data[MainPage][course_name]">
 	</div>
@@ -18,7 +20,7 @@
 	<div class="form-group">
 		<label class="control-label">Codigo del Curso</label>
 		<input type="text" class="form-control" name="data[MainPage][course_code]">
-	</div>
+	</div-->
 
 	<?php
 		echo $this->Form->submit('Agregar', array(
