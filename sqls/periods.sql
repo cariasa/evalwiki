@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `iscwiki`.`periods` (
-	`id` INT NOT NULL PRIMARY KEY,
+	`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	`semester` INT(1) NOT NULL,
 	`period`INT(1) NOT NULL,
 	`year` YEAR NOT NULL,

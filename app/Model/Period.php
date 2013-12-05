@@ -38,24 +38,8 @@ class Period extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
-			'maxLength' => array(
-				'rule' => array('maxLength'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
 		),
 		'period' => array(
-			'maxLength' => array(
-				'rule' => array('maxLength'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -85,7 +69,7 @@ class Period extends AppModel {
 		),
 		'start_date' => array(
 			'date' => array(
-				'rule' => array('date', 'dmy'),
+				'rule' => array('date', 'ymd'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -103,7 +87,7 @@ class Period extends AppModel {
 		),
 		'end_date' => array(
 			'date' => array(
-				'rule' => array('date', 'dmy'),
+				'rule' => array('date', 'ymd'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

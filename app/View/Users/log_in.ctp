@@ -2,7 +2,7 @@
 	echo $this->Session->flash('flash', array('element' => 'failure')); 
 ?>
 
-<section class="col-sm-8 col-sm-offset-2 jumbotron">
+<section class="col-sm-6 col-sm-offset-3 jumbotron">
 	<?php 
 	echo $this->Form->create('User', array('class' => 'form-horizontal',
 												'action' => 'logIn'));

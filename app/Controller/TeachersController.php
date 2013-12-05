@@ -15,6 +15,7 @@ class TeachersController extends AppController {
 	public function add() {
 		$this->layout = 'normal';
 		$this->set('title_for_layout', 'Agregar profesor');
+		$this->set('name', $this->Session->read('User.name'));
 		if (!empty($this->request->data)) {
 			//Guardar el registro de profesor
 			if ($this->Teacher->save($this->request->data)) {
@@ -37,6 +38,8 @@ class TeachersController extends AppController {
 
 	public function view() {
 		$this->layout = 'normal';
+		$this->set('title_for_layout', 'Profesores');
+		$this->set('name', $this->Session->read('User.name'));
 
 		$this->loadModel('User');
 		$db = $this->User->getDataSource();

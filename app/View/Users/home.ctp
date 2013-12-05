@@ -14,7 +14,7 @@
 	<div class="row">
 		<section class="col-md-4 home-option">
 			<h2>Periodos</h2>
-			<?php echo $this->Html->link('Agregar', array('controller' => '', 'action' => ''), array('class' => 'btn btn-info')); ?>
+			<?php echo $this->Html->link('Agregar', array('controller' => 'periods', 'action' => 'add'), array('class' => 'btn btn-info')); ?>
 			<?php echo $this->Html->link('Administrar', array('controller' => '', 'action' => ''), array('class' => 'btn btn-info')); ?>
 		</section>
 		<section class="col-md-4 col-md-offset-1  home-option">

@@ -19,7 +19,7 @@ class UsersController extends AppController {
 	}
 
 	public function index() {
-		$this->redirect(array('action' => 'logIn'));
+		$this->redirect(array('action' => 'home'));
 	}
 
 	public function login() {
@@ -31,7 +31,7 @@ class UsersController extends AppController {
 		$this->set('title_for_layout', 'Log In');
 
 		if (!empty($this->request->data)) {
-			$user = $this->request->data['User']['name'];
+			$user = ucfirst($this->request->data['User']['name']);
 			$pass = $this->request->data['User']['password'];
 
 			$correct_password = $this->User->find('first', array(
@@ -46,6 +46,7 @@ class UsersController extends AppController {
 				if ($pass_parts[3] == md5($pass_parts[2]."-".md5($pass))) {
 					if ($this->_isSysop($correct_password['User']['user_id']) || $this->_isTeacher($correct_password['User']['user_id'])) {
 						$this->Session->write('User.id', $correct_password['User']['user_id']);
+						$this->Session->write('User.name', $user);
 						$this->redirect(array('action' => 'home'));
 					} else {
 						$this->Session->setFlash('Usted no posee permisos para entrar al sistema.');
@@ -62,12 +63,13 @@ class UsersController extends AppController {
 			$this->redirect(array('action' => 'logIn'));
 		}
 		$this->layout = 'normal';
+		$this->set('name', $this->Session->read('User.name'));
 	}
 
 	public function logout() {
 		if ($this->Session->check('User.id')) {
 			$this->Session->destroy();
-			$this->redirect(array('action' => 'logIn'));
 		}
+		$this->redirect(array('action' => 'logIn'));
 	}
 }
