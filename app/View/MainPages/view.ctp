@@ -6,15 +6,15 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Nombre de usuario</th>
+				<th>Nombre de clase</th>
 				<th>Acciones</th>
 			</tr>
 		</thead>
 		<tbody>
-			<?php foreach($teachers as $teacher): ?>
+			<?php foreach($main_pages as $main_page): ?>
 				<tr>
-					<td><?php echo $teacher['User']['user_name']; ?></td>
-					<td><?php echo $this->Html->link('Eliminar', array('action' => 'delete', 'id' => $teacher['User']['user_id']), array('class' => 'btn btn-danger')); ?></td>
+					<td><?php echo $main_page['Page']['page_title']; ?></td>
+					<td><?php echo $this->Html->link('Eliminar', array('action' => '', 'id' => $main_page['Page']['page_id']), array('class' => 'btn btn-danger')); ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

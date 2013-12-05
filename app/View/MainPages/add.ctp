@@ -7,7 +7,7 @@
 	<?php
 		echo $this->Form->create('MainPage', array('class' => 'form-horizontal',
 													'action' => 'add'));
-		echo $this->Form->select('page_id', $main_pages, array('escape' => false, 'empty' => false, 'class' => 'form-control'));
+		echo $this->Form->select('page_id', $pages, array('escape' => false, 'empty' => false, 'class' => 'form-control'));
 	?>
 
 	<div class="form-group">

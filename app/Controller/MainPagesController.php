@@ -25,19 +25,28 @@ class MainPagesController extends AppController {
 			}
 		}
 
-		$mainpages_ids = array_values($this->MainPage->find('list'));
-				
-		$this->set('main_pages', $mainpages_ids);
+		$this->loadModel('Page');
+		$fields = array('Page.page_id', 'Page.page_title');
+		$main_pages_ids = array_values($this->MainPage->find('list', array('fields'=> array('MainPage.page_id'))));
+		$conditions = array('NOT' => array('Page.page_id' => $main_pages_ids));
+		$order = 'Page.page_title';
+		$pages_isnt_main_pages = $this->Page->find('list', array('fields' => $fields, 'conditions' => $conditions, 'order' => $order));
+		
+		$this->set('pages', $pages_isnt_main_pages);		
+
+
+
 
 	}
 
 	public function view() {
 		$this->layout = 'normal';
+		$this->set('name', $this->Session->read('User.name'));
 
-		$this->loadModel('User');
-		$db = $this->User->getDataSource();
-		$result = $db->fetchAll('SELECT user_id, user_name FROM user User JOIN teachers Teacher ON User.user_id = Teacher.id;');
-		$this->set('teachers', $result);
+		$this->loadModel('Page');
+		$db = $this->Page->getDataSource();
+		$result = $db->fetchAll('SELECT Page.page_id, Page.page_title FROM page Page JOIN main_pages MainPage ON Page.page_id = MainPage.page_id;');
+		$this->set('main_pages', $result);
 	}
 
 	public function delete() {
