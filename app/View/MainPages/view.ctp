@@ -13,8 +13,9 @@
 		<tbody>
 			<?php foreach($main_pages as $main_page): ?>
 				<tr>
-					<td><?php echo $main_page['Page']['page_title']; ?></td>
-					<td><?php echo $this->Html->link('Eliminar', array('action' => '', 'id' => $main_page['Page']['page_id']), array('class' => 'btn btn-danger')); ?></td>
+					<td><?php echo $main_page['MainPage']['course_name']; ?></td>
+					<td><?php echo $this->Html->link('Eliminar', array('action' => 'delete', 'id' => $main_page['Page']['page_id']), array('class' => 'btn btn-danger')); ?></td>
+					<td><?php echo $this->Html->link('Actualizar', array('action' => 'edit', 'id' => $main_page['Page']['page_id']), array('class' => 'btn btn-danger')); ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

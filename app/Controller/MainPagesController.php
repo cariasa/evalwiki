@@ -34,9 +34,6 @@ class MainPagesController extends AppController {
 		
 		$this->set('pages', $pages_isnt_main_pages);		
 
-
-
-
 	}
 
 	public function view() {
@@ -45,13 +42,13 @@ class MainPagesController extends AppController {
 
 		$this->loadModel('Page');
 		$db = $this->Page->getDataSource();
-		$result = $db->fetchAll('SELECT Page.page_id, Page.page_title FROM page Page JOIN main_pages MainPage ON Page.page_id = MainPage.page_id;');
+		$result = $db->fetchAll('SELECT Page.page_id, MainPage.course_name FROM page Page JOIN main_pages MainPage ON Page.page_id = MainPage.page_id;');
 		$this->set('main_pages', $result);
 	}
 
 	public function delete() {
 		if (!empty($this->request->named)) {
-			if ($this->Teacher->delete($this->request->named['id'])) {
+			if ($this->MainPage->delete($this->request->named['id'])) {
 				$this->Session->setFlash('Eliminado con éxito!', 'success-dismissable', array(), 'success-dismissable');
 			} else {
 				$this->Session->setFlash('Ha ocurrido un error.', 'failure-dismissable', array(), 'failure-dismissable');
@@ -60,5 +57,22 @@ class MainPagesController extends AppController {
 			$this->Session->setFlash('Ha ocurrido un error.', 'failure-dismissable', array(), 'failure-dismissable');
 		}
 		$this->redirect(array('action' => 'view'));
+	}
+
+	public function edit() {
+		$this->layout = 'normal';
+		$this->set('title_for_layout', 'Actualizar pagina');
+		$this->set('name', $this->Session->read('User.name'));
+
+		$page_id = $this->request->named['id'];
+		$course_name = $this->MainPage->field('course_name',$page_id);		
+		$course_code = $this->MainPage->field('course_code',$page_id);
+
+		$this->set('id',$page_id);
+		$this->set('name',$course_name);
+		$this->set('code',$course_code);
+	}
+
+	public function update(){
 	}
 }
