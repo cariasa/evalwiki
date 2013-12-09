@@ -1,4 +1,4 @@
-<main class="col-md-10 col-md-offset-1">
+<main class="col-md-6 col-md-offset-3">
 	<?php 
 		echo $this->Session->flash('failure-dismissable');
 		echo $this->Session->flash('success-dismissable');
