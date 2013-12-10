@@ -26,7 +26,7 @@
 			</header>
 			<div class="home-option-body">
 				<?php echo $this->Html->link('Agregar', array('controller' => 'periods', 'action' => 'add'), array('class' => 'btn btn-info')); ?>
-				<?php echo $this->Html->link('Administrar', array('controller' => '', 'action' => ''), array('class' => 'btn btn-info')); ?>
+				<?php echo $this->Html->link('Administrar', array('controller' => 'periods', 'action' => 'view'), array('class' => 'btn btn-info')); ?>
 			</div>
 		</section>
 		<section class="col-md-4 col-md-offset-1  home-option">
