@@ -10,7 +10,7 @@ class TeachersController extends AppController {
 
 	public function beforeRender() {
 		$this->layout = 'normal';
-		$this->set('title_for_layout', 'Agregar profesor');
+		$this->set('title_for_layout', 'Profesores');
 		$this->set('name', $this->Session->read('User.name'));
 	}
 
