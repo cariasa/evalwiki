@@ -38,17 +38,17 @@
 
 	<div class="form-group">
 		<label class="control-label">Año</label>
-		<input type="text" class="form-control" name="data[Period][year]" required data-validation="custom" data-validation-regexp="[0-9]{4}">
+		<input type="text" class="form-control" name="data[Period][year]" required data-validation="custom" data-validation-regexp="[0-9]{4}" placeholder="2013">
 	</div>
 
 	<div class="form-group">
 		<label class="control-label">Fecha de inicio</label>
-		<input type="text" class="form-control" name="data[Period][start_date]" required data-validation="date" data-validation-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+		<input type="text" class="form-control" name="data[Period][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha">
 	</div>
 
 	<div class="form-group">
 		<label class="control-label">Fecha Final</label>
-		<input type="text" class="form-control" name="data[Period][end_date]" required data-validation="date" data-validation-format="yyyy/mm/dd" placeholder="yyyy/mm/dd">
+		<input type="text" class="form-control" name="data[Period][end_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha">
 	</div>
 
 	<?php
