@@ -64,15 +64,21 @@ class MainPagesController extends AppController {
 		$this->set('title_for_layout', 'Actualizar pagina');
 		$this->set('name', $this->Session->read('User.name'));
 
-		$page_id = $this->request->named['id'];
-		$course_name = $this->MainPage->field('course_name',$page_id);		
-		$course_code = $this->MainPage->field('course_code',$page_id);
 
-		$this->set('id',$page_id);
-		$this->set('name',$course_name);
-		$this->set('code',$course_code);
+		if (!empty($this->request->data)) {
+			//echo $this->request->data['MainPage']['page_id'];
+			$this->MainPage->read(null, $this->request->pass);
+			$this->MainPage->set($this->request->data['MainPage']);
+			if ($this->MainPage->save()) {
+				$this->Session->setFlash('El periodo se ha actualizado exitosamente!', 'success-dismissable', array(), 'success-dismissable');
+				$this->redirect(array('action' => 'view'));
+			} else {
+				$this->Session->setFlash('Ha ocurrido un error.', 'failure-dismissable', array(), 'failure-dismissable');
+			}
+			
+		} else  { 
+			$this->request->data = $this->MainPage->findBypage_id($this->request->pass);
+		} 
 	}
 
-	public function update(){
-	}
 }
