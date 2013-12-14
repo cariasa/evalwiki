@@ -14,7 +14,7 @@
 			<?php foreach($periods as $period): ?>
 				<tr>
 					<td>
-						<?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['period']; ?>
+						<?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?>
 					</td>
 					<td>
 						<?php echo $this->Html->link('Actualizar', array('action' => 'edit', 'id' => $period['Period']['id']), array('class' => 'btn btn-primary')); ?>

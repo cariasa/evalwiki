@@ -35,7 +35,7 @@ $(document).ready(function() {
         var endDate = value.split("-");
         var startDate = $('#StartDate').val().split("-");
 
-        if (new Date(startDate[2], startDate[1] - 1, startDate[0]) < new Date(endDate[2], endDate[1] - 1, endDate[0])) {
+        if (new Date(startDate[0], startDate[1] - 1, startDate[2]) < new Date(endDate[0], endDate[1] - 1, endDate[2])) {
             return true;
         }
 
@@ -47,5 +47,9 @@ $(document).ready(function() {
 
     $.validate({
         language: spanishMessages
+    });
+
+    $('.calendar').datepicker().on('changeDate', function(ev) {
+        $('.calendar').trigger('blur');
     });
 });
