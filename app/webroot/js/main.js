@@ -25,10 +25,27 @@ $(document).ready(function() {
         badAlphaNumeric : 'Solamente ingrese números y letras ',
         badAlphaNumericExtra: ' y ',
         wrongFileSize : 'El archivo que trata de subir es demasiado grande',
-        wrongFileType : 'El archivo que trata de subir es del formato incorrecto'
+        wrongFileType : 'El archivo que trata de subir es del formato incorrecto',
+        badStartDate : 'La fecha de inicio debe de ser anterior a la fecha final'
     };
+
+    $.formUtils.addValidator({
+      name : 'end_date',
+      validatorFunction : function(value, $el, config, language, $form) {
+        var endDate = value.split("-");
+        var startDate = $('#StartDate').val().split("-");
+
+        if (new Date(startDate[2], startDate[1] - 1, startDate[0]) < new Date(endDate[2], endDate[1] - 1, endDate[0])) {
+            return true;
+        }
+
+        return false;
+      },
+      errorMessage : 'La fecha de inicio debe de ser anterior a la fecha final',
+      errorMessageKey: 'badStartDate'
+    });
 
     $.validate({
         language: spanishMessages
-	});
+    });
 });
