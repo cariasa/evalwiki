@@ -5,7 +5,7 @@
 	<title><?php echo $title_for_layout ?></title>
 	<?php 
 		echo $this->Html->charset('utf-8');
-		echo $this->Html->css(array('bootstrap.min', 'main'));
+		echo $this->Html->css(array('bootstrap.min', 'datepicker', 'main'));
 	?>
 </head>
 <body>
@@ -30,6 +30,6 @@
 	<?php echo $this->Html->link('Wiki Facultad Ingeniería | UNITEC', 'http://fi.unitec.edu/wiki') ?>
 	</footer> 
 
-	<?php echo $this->Html->script(array('https://code.jquery.com/jquery.min.js', 'bootstrap.min', 'http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.27/jquery.form-validator.min.js', 'main')); ?>
+	<?php echo $this->Html->script(array('https://code.jquery.com/jquery.min.js', 'bootstrap.min', 'http://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.27/jquery.form-validator.min.js', 'bootstrap-datepicker', 'main')); ?>
 </body>
 </html>

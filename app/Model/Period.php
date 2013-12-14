@@ -69,7 +69,7 @@ class Period extends AppModel {
 		),
 		'start_date' => array(
 			'date' => array(
-				'rule' => array('date', 'dmy'),
+				'rule' => array('date', 'ymd'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -87,7 +87,7 @@ class Period extends AppModel {
 		),
 		'end_date' => array(
 			'date' => array(
-				'rule' => array('date', 'dmy'),
+				'rule' => array('date', 'ymd'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,

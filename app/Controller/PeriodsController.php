@@ -35,6 +35,7 @@ class PeriodsController extends AppController {
 	public function edit() {
 		if ($this->request->named) {
 			$period = $this->Period->find('first', array('conditions' => array('Period.id' => $this->request->named['id'])));
+			pr($period);
 			$this->set('period', $period);
 		} elseif ($this->request->data) {
 			$this->Period->read(null, $this->request->data['Period']['id']);

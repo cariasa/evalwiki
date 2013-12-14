@@ -43,14 +43,12 @@
 
 	<div class="form-group">
 		<label class="control-label">Fecha de inicio</label>
-		<input type="text" class="form-control" name="data[Period][start_date]" required data-validation="date" data-validation-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" data-validation-error-msg="Ingrese el formato correcto de fecha" 
-		id="StartDate">
+		<input type="text" class="form-control calendar" name="data[Period][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d').'"'; ?>>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label">Fecha Final</label>
-		<input type="text" class="form-control" name="data[Period][end_date]" required data-validation="date end_date" data-validation-format="dd-mm-yyyy" placeholder="dd-mm-yyyy" data-validation-error-msg="Ingrese el formato correcto de fecha"
-		id="EndDate">
+		<input type="text" class="form-control calendar" name="data[Period][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d', strtotime('+3 months')).'"'; ?>>
 	</div>
 
 	<?php
