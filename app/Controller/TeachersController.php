@@ -43,7 +43,12 @@ class TeachersController extends AppController {
 		$this->loadModel('User');
 		$db = $this->User->getDataSource();
 		$result = $db->fetchAll('SELECT user_id, user_name FROM user User JOIN teachers Teacher ON User.user_id = Teacher.id;');
-		$this->set('teachers', $result);
+		if (count($result) == 0) {
+			$this->Session->setFlash('No hay profesores que mostrar.', 'failure', array(), 'failure');
+			$this->set('teachers', null);
+		} else {
+			$this->set('teachers', $result);
+		}
 	}
 
 	public function delete() {

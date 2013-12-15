@@ -19,7 +19,12 @@ class PeriodsController extends AppController {
 
 	public function view() {
 		$periods = $this->Period->find('all', array('fields' => array('Period.id', 'Period.semester', 'Period.period', 'Period.year')));
-		$this->set('periods', $periods);
+		if (count($periods) == 0) {
+			$this->Session->setFlash('No hay periodos.', 'failure', array(), 'failure');
+			$this->set('periods', null);
+		} else  {
+			$this->set('periods', $periods);
+		}
 	}
 
 	public function add() {
@@ -35,7 +40,6 @@ class PeriodsController extends AppController {
 	public function edit() {
 		if ($this->request->named) {
 			$period = $this->Period->find('first', array('conditions' => array('Period.id' => $this->request->named['id'])));
-			pr($period);
 			$this->set('period', $period);
 		} elseif ($this->request->data) {
 			$this->Period->read(null, $this->request->data['Period']['id']);

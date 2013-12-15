@@ -2,25 +2,28 @@
 	<?php 
 		echo $this->Session->flash('failure-dismissable');
 		echo $this->Session->flash('success-dismissable');
+		echo $this->Session->flash('failure');
 	?>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Periodo</th>
-				<th>Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach($periods as $period): ?>
+	<?php if(!is_null($periods)): ?>
+		<table class="table table-hover">
+			<thead>
 				<tr>
-					<td>
-						<?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?>
-					</td>
-					<td>
-						<?php echo $this->Html->link('Actualizar', array('action' => 'edit', 'id' => $period['Period']['id']), array('class' => 'btn btn-primary')); ?>
-					</td>
+					<th>Periodo</th>
+					<th>Acciones</th>
 				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<?php foreach($periods as $period): ?>
+					<tr>
+						<td>
+							<?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?>
+						</td>
+						<td>
+							<?php echo $this->Html->link('Actualizar', array('action' => 'edit', 'id' => $period['Period']['id']), array('class' => 'btn btn-primary')); ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
 </main>

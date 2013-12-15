@@ -2,21 +2,25 @@
 	<?php 
 		echo $this->Session->flash('failure-dismissable');
 		echo $this->Session->flash('success-dismissable');
+		echo $this->Session->flash('failure');
 	?>
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Nombre de usuario</th>
-				<th>Acciones</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php foreach($teachers as $teacher): ?>
+
+	<?php if (!is_null($teachers)): ?>
+		<table class="table table-hover">
+			<thead>
 				<tr>
-					<td><?php echo $teacher['User']['user_name']; ?></td>
-					<td><?php echo $this->Html->link('Eliminar', array('action' => 'delete', 'id' => $teacher['User']['user_id']), array('class' => 'btn btn-danger')); ?></td>
+					<th>Nombre de usuario</th>
+					<th>Acciones</th>
 				</tr>
-			<?php endforeach; ?>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>
+				<?php foreach($teachers as $teacher): ?>
+					<tr>
+						<td><?php echo $teacher['User']['user_name']; ?></td>
+						<td><?php echo $this->Html->link('Eliminar', array('action' => 'delete', 'id' => $teacher['User']['user_id']), array('class' => 'btn btn-danger')); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
 </main>
