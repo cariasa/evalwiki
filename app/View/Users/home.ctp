@@ -34,7 +34,7 @@
 				<h2>Clases</h2>
 			</header>
 			<div class="home-option-body">
-				<?php echo $this->Html->link('Listar', array('controller' => '', 'action' => ''), array('class' => 'btn btn-info')); ?>
+				<?php echo $this->Html->link('Listar', array('controller' => 'SelectedPages', 'action' => 'view'), array('class' => 'btn btn-info')); ?>
 			</div>
 		</section>
 	</div>
