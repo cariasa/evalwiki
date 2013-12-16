@@ -63,7 +63,7 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function addPage() {
-		if ($this->request->is('get') && !is_null($this->request->named)) {
+		if ($this->request->is('get') && !empty($this->request->named)) {
 			if (!$this->Session->check('SelectedPages.evaluate')) {
 				$this->Session->write('SelectedPages.evaluate', array($this->request->named['id']));
 				$this->Session->setFlash('Se ha añadido la página para calificar.', 'success-dismissable', array(), 'success-dismissable');
@@ -84,7 +84,22 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function removePage() {
+		if ($this->request->is('get') && !empty($this->request->named) && $this->Session->check('SelectedPages.evaluate')) {
+			$evaluate = $this->Session->read('SelectedPages.evaluate');
+			unset($evaluate[array_search($this->request->named['id'], $this->Session->read('SelectedPages.evaluate'))]);
+			$this->Session->write('SelectedPages.evaluate', $evaluate);
+			$this->Session->setFlash('La página ha sido removida de la lista de evaluación.', 'success-dismissable', array(), 'success-dimissable');
+		}
 
+		$this->redirect(array('action' => 'manage'));
+	}
+
+	public function removeAll() {
+		if ($this->Session->check('SelectedPages.evaluate')) {
+			$this->Session->delete('SelectedPages.evaluate');
+			$this->Session->setFlash('Se han removido todas las páginas a evaluar.', 'success-dismissable', array(), 'success-dismissable');
+		}
+		$this->redirect(array('action' => 'view'));
 	}
 
 	public function setParameters() {
