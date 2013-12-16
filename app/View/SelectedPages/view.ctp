@@ -5,9 +5,15 @@
 		echo $this->Session->flash('failure');
 	?>
 	<?php if (!count($pages) == 0 ): ?>
-		<?php if (!is_null($father)): ?>
-			<?php echo $this->Html->link('<- Atrás', array('action' => 'view', 'id' => $father), array('class' => 'btn btn-info')); ?>
-		<?php endif; ?>
+		<div class="row">
+			<div class="btn-group">
+				<?php if (!is_null($father)): ?>
+					<?php echo $this->Html->link('<- Atrás', array('action' => 'view', 'id' => $father), array('class' => 'btn btn-info')); ?>
+				<?php endif; ?>
+
+				<?php echo $this->Html->link('Evaluar', array('action' => 'manage'), array('class' => 'btn btn-warning')); ?>
+			</div>
+		</div>
 
 		<table class="table table-hover">
 			<thead>
@@ -31,13 +37,19 @@
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php if (!is_null($father)): ?>
-			<?php echo $this->Html->link('<- Atrás', array('action' => 'view', 'id' => $father), array('class' => 'btn btn-info')); ?>
-		<?php endif; ?>
+		<div class="row">
+			<div class="btn-group">
+				<?php if (!is_null($father)): ?>
+					<?php echo $this->Html->link('<- Atrás', array('action' => 'view', 'id' => $father), array('class' => 'btn btn-info')); ?>
+				<?php endif; ?>
+				<?php echo $this->Html->link('Evaluar', array('action' => 'manage'), array('class' => 'btn btn-warning')); ?>
+			</div>
+		</div>
 	<?php else: ?>
 		<?php if (!is_null($father)): ?>
 			<?php echo $this->Html->link('<- Atrás', array('action' => 'view', 'id' => $father), array('class' => 'btn btn-primary')); ?>
 		<?php endif; ?>
+		<?php echo $this->Html->link('Evaluar', array('action' => 'manage'), array('class' => 'btn btn-warning')); ?>
 	<?php endif; ?>
 
 </main>

@@ -49,7 +49,17 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function manage() {
-
+		if (!$this->Session->check('SelectedPages.evaluate')) {
+			$this->Session->setFlash('Debe seleccionar las paginas a evaluar.', 'failure-dismissable', array(), 'failure-dismissable');
+			$this->redirect(array('action' => 'view'));
+		} else {
+			$this->loadModel('Page');
+			$selected_pages = $this->Page->find('list', array(
+				'fields' => array('Page.page_id', 'Page.page_title'),
+				'conditions' => array('Page.page_id' => $this->Session->read('SelectedPages.evaluate'))
+			));
+			$this->set('selected_pages', $selected_pages);
+		}
 	}
 
 	public function addPage() {

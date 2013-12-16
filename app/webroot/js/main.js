@@ -52,4 +52,8 @@ $(document).ready(function() {
     $('.calendar').datepicker().on('changeDate', function(ev) {
         $('.calendar').trigger('blur');
     });
+
+    $('.confirmation').on('click', function() {
+        return confirm('¿Está seguro?');
+    });
 });
