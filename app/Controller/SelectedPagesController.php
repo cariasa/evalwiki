@@ -111,6 +111,7 @@ class SelectedPagesController extends AppController {
 	public function evaluate() {
 		if($this->request->is('post') && !empty($this->request->data)) {
 			$data = $this->request->data['Parameters'];
+			$this->set('data', $data);
 
 			$sum_percent = (float) $data['contentWeight'] +
 							(float) $data['presentationWeight'] + 
@@ -284,8 +285,41 @@ class SelectedPagesController extends AppController {
                     }
             }
 
-            pr($tabla_principal);
-            pr($totales_por_usuario);
+            $this->set('users', $usuarios);
+
+            if ($data['consistencyAlgorithm'] == 1) {
+            	$max_participation = count(array_values($tabla_principal[$usuarios[0]]));
+            	$consistencyGrades = array();
+
+            	foreach($usuarios as $usuario) {
+            		$current_participation = 0;
+            		foreach($fechas as $fecha) {
+            			if(!$tabla_principal[$usuario][$fecha] == 0) {
+            				$current_participation++;
+            			}
+            		}
+            		$consistencyGrades[$usuario] = (float) $current_participation / (float) $max_participation;
+            	}
+
+            	$this->set('consistencyGrades', $consistencyGrades);
+            } else {
+            	$max_participation = $data['maxParticipations'];
+            	$consistencyGrades = array();
+
+            	foreach($usuarios as $usuario) {
+            		$current_participation = 0;
+            		foreach($fechas as $fecha) {
+            			if(!$tabla_principal[$usuario][$fecha] == 0) {
+            				$current_participation++;
+            			}
+            		}
+
+            		$grade = (float) $current_participation / (float) $max_participation;
+            		$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
+            	}
+
+            	$this->set('consistencyGrades', $consistencyGrades);
+            }
 		}
 	}
 }

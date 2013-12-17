@@ -24,5 +24,31 @@
 	
 	<div class="row">
 		<h3>Notas individuales</h3>
+		<div class="well">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Usuario</th>
+						<th>Nota de Consistencia</th>
+						<th>Nota de Contribución</th>
+						<th>Nota total</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<?php foreach($users as $user): ?>
+						<tr>
+							<td><?php echo $user; ?></td>
+							<td><?php echo number_format($consistencyGrades[$user] * $data['consistencyWeight'], 2); ?></td>
+							<td><?php echo 'contribución'; ?></td>
+							<?php 
+								$current_grade = (array_sum(array_values($grades)) + ($consistencyGrades[$user] * $data['consistencyWeight'])) / 100.0 * $data['goldPoints'];
+							?>
+							<td><?php echo number_format($current_grade, 2); ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </main>
