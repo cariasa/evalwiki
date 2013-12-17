@@ -338,10 +338,9 @@ public function evaluate() {
             		$contribucion_por_usuario[$usuario]=$total_usuario_contribucion[$usuario]/$maximo_contribucion;
             	}
             	$this->set('contribucion_por_usuario',$contribucion_por_usuario);
-            	pr($contribucion_por_usuario);
             }
             elseif ($data['contributionAlgorithm']==2) {
-            	/*$variable_alpha=100;
+            	$variable_alpha=100;
             	$variable_tao=0.6;
             	$variable_init=0;
             	$total_contribucion=0;
@@ -354,19 +353,17 @@ public function evaluate() {
             	foreach ($usuarios as $usuario){
             		$total_usuario_contribucion[$usuario]=$totales_por_usuario[$usuario]/$contribucion_entre_usuarios;
             	}
-            	pr($total_usuario_contribucion);
-            	$nota_por_usuario=array();
 
             	$si_por_usuario=array();
             	foreach ($usuarios as $usuario){
-            		$si_por_usuario[$usuario]=($variable_alpha*($variable_alpha-$variable_init)*pow(M_E,(-($total_usuario_contribucion[$usuario]/$variable_tao))));
+            		$si_por_usuario[$usuario]=($variable_alpha*($variable_alpha-$variable_init)*pow(M_E,(($total_usuario_contribucion[$usuario]/$variable_tao))));
             	}
-            	pr($si_por_usuario);
-            	$maximo_si=count($si_por_usuario);
+            	$maximo_si=max($si_por_usuario);
+            	$contribucion_por_usuario=array();
             	foreach ($usuarios as $usuario){
-            		$nota_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
+            		$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
             	}
-            	pr($nota_por_usuario);*/
+            	$this->set('contribucion_por_usuario',$contribucion_por_usuario);
             }
 		}	
 	}
