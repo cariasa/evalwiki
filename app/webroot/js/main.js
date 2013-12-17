@@ -45,6 +45,15 @@ $(document).ready(function() {
       errorMessageKey: 'badStartDate'
     });
 
+    $.formUtils.addValidator({
+      name : 'sum_percent',
+      validatorFunction : function(value, $el, config, language, $form) {
+        consonsole.log($('#contentW').val() + $('#presentationW').val());
+      },
+      errorMessage : 'Los porcentajes deben sumar 100%',
+      errorMessageKey: 'badSumPercent'
+    });
+
     $.validate({
         language: spanishMessages,
         decimalSeparator: '.'

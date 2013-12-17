@@ -6,13 +6,21 @@
 	?>
 
 	<h2>Parámetros de evaluación</h2>
-	<?php echo $this->Form->create('Parameters', array('action' => 'evaluate', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+	<?php 
+		echo $this->Form->create('SelectedPages', array(
+			'action' => 'evaluate', 
+			'class' => 'form-horizontal', 
+			'role' => 'form')); 
+	?>
 
 	<div class="well">
 		<div class="form-group">
 			<label class="col-sm-4 col-sm-offset-2 control-label">Puntos Oro</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="data[Parameters][goldPoints]" value="10" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100">
+				<input type="text" class="form-control" 
+						name="data[Parameters][goldPoints]" value="10" 
+						data-validation="number" data-validation-allowing="range[1;100],float" 
+						data-validation-error-msg="Puntaje del 1-100">
 			</div>
 		</div>
 		<ul>
@@ -47,13 +55,19 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][contentGrade]">
+						<input type="text" class="form-control" type="text" 
+							   	data-validation="number" data-validation-allowing="range[1;100],float" 
+							   	data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
+							   	name="data[Parameters][contentGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][contentWeight]">
+						<input type="text" class="form-control weight-input sum_percent" type="text" 
+								data-validation="number" data-validation-allowing="range[1;100],float" 
+								data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
+								name="data[Parameters][contentWeight]" id="contentW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -71,13 +85,18 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][presentationGrade]">
+						<input type="text" class="form-control" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][presentationGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][presentationWeight]">
+						<input type="text" class="form-control weight-input" type="text" 
+								data-validation="number" data-validation-allowing="range[1;100],float" 
+								data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
+								name="data[Parameters][presentationWeight]" id="presentationW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -95,13 +114,18 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][colaborationGrade]">
+						<input type="text" class="form-control" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][colaborationGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][colaborationWeight]">
+						<input type="text" class="form-control weight-input weight-input" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][colaborationWeight]"
+								id="colaborationW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -119,13 +143,19 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][organizationGrade]">
+						<input type="text" class="form-control" type="text" 
+								data-validation="number" data-validation-allowing="range[1;100],float" 
+								data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
+								name="data[Parameters][organizationGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][organizationWeight]">
+						<input type="text" class="form-control weight-input" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][organizationWeight]"
+								id="organizationW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -143,13 +173,18 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][referencesGrade]">
+						<input type="text" class="form-control" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][referencesGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][referencesWeight]">
+						<input type="text" class="form-control weight-input" type="text"
+								data-validation="number" data-validation-allowing="range[1;100],float" 
+								data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
+								name="data[Parameters][referencesWeight]" id="referencesW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -167,13 +202,17 @@
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][languageGrade]">
+						<input type="text" class="form-control weight-input" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][languageGrade]">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
 				<td>
 					<div class="input-group">
-						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][languageWeight]">
+						<input type="text" class="form-control weight-input" type="text" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][languageWeight]" id="languageW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -195,7 +234,10 @@
 				<td>Consistencia en el tiempo</td>
 				<td>
 					<div class="input-group">
-						<input class="form-control" type="text" name="data[Parameters][consistencyWeight]">
+						<input class="form-control" type="text weight-input" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][consistencyWeight]"
+								id="consistencyW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -204,7 +246,10 @@
 				<td>Contribución</td>
 				<td>
 					<div class="input-group">
-						<input class="form-control" type="text" name="data[Parameters][contributionWeight]">
+						<input class="form-control" type="text weight-input" data-validation="number" 
+								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
+								data-validation-optional="true" name="data[Parameters][contributionWeight]"
+								id="contributionW">
 						<span class="input-group-addon">%</span>
 					</div>
 				</td>
@@ -242,6 +287,47 @@
 			<div class="col-sm-10 col-sm-offset-1">
 				<span class="help-block">Define cómo se calculará la evaluación de las contribuciones, la suavización se hace por medio de una función exponencial con asíntota.</span>
 			</div>
+		</div>
+	</div>
+
+	<h3>Rango de fechas a evaluar</h3>
+
+	<div class="radio">
+		<label class="control-label">
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="periods" >
+			Por trimestre
+		</label>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-4 control-label">Periodo</label>
+		<div class="col-sm-8">
+			<select class="form-control">
+				<?php foreach($periods as $period): ?>
+					<option value=<?php echo '"'.$period['Period']['id'].'"'; ?>><?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?></option>
+				<?php endforeach; ?>
+			</select>
+		</div>
+	</div>
+
+	<div class="radio">
+		<label class="control-label">
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" >
+			Por rango de fechas
+		</label>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-sm-4">Fecha de inicio</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control calendar" name="data[Parameters][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d').'"'; ?>>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-sm-4">Fecha Final</label>
+		<div class="col-sm-8">
+			<input type="text" class="form-control calendar" name="data[Parameters][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d', strtotime('+3 months')).'"'; ?>>
 		</div>
 	</div>
 	<?php echo $this->Form->end(array('label' => 'Evaluar','div' => 'row', 'class' => 'btn btn-primary')); ?>	 

@@ -93,7 +93,7 @@ class SelectedPagesController extends AppController {
 
 		$this->redirect(array('action' => 'manage'));
 	}
-	
+
 	public function removeAll() {
 		if ($this->Session->check('SelectedPages.evaluate')) {
 			$this->Session->delete('SelectedPages.evaluate');
@@ -103,10 +103,110 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function setParameters() {
-		
+		$this->loadModel('Period');
+		$periods = $this->Period->find('all', array('fields' => array('Period.id', 'Period.period', 'Period.semester', 'Period.year')));
+		$this->set('periods', $periods);
 	}
 
 	public function evaluate() {
+		if($this->request->is('post') && !empty($this->request->data)) {
+			$data = $this->request->data['Parameters'];
 
+			$sum_percent = (float) $data['contentWeight'] +
+							(float) $data['presentationWeight'] + 
+							(float) $data['colaborationWeight'] +
+							(float) $data['organizationWeight'] +
+							(float) $data['referencesWeight'] +
+							(float) $data['languageWeight'] +
+							(float) $data['consistencyWeight'] +
+							(float) $data['contributionWeight'];
+
+			if ($sum_percent != (float) 100) {
+				$this->Session->setFlash('La suma de los pesos no es igual a 100%', 'failure-dismissable', array(), 'failure-dismissable');
+				$this->redirect(array('action' => 'setParameters'));
+			} else {
+				$correct_grades = true;
+
+				if (!empty($data['contentGrade'])) {
+					if ((float) $data['contentGrade'] > (float) $data['contentWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!empty($data['presentationGrade'])) {
+					if ((float) $data['presentationGrade'] > (float) $data['presentationWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!empty($data['colaborationGrade'])) {
+					if ((float) $data['colaborationGrade'] > (float) $data['colaborationWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!empty($data['organizationGrade'])) {
+					if ((float) $data['organizationGrade'] > (float) $data['organizationWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!empty($data['referencesGrade'])) {
+					if ((float) $data['referencesGrade'] > (float) $data['referencesWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!empty($data['languageGrade'])) {
+					if ((float) $data['languageGrade'] > (float) $data['languageWeight']) {
+						$correct_grades = false;
+					}
+				}
+
+				if (!$correct_grades) {
+					$this->Session->setFlash('Una(s) notas son mayores que sus pesos.', 'failure-dismissable', array(), 'failure-dismissable');
+					$this->redirect(array('action' => 'setParameters'));
+				}
+			}
+
+			$grades = array();
+			if (!empty($data['contentGrade'])) {
+				$grades['contenido'] = (float) $data['contentGrade'];
+			} else {
+				$grades['contenido'] = (float) $data['contentWeight'] * (float) $data['contentRubric'];
+			}
+
+			if (!empty($data['presentationGrade'])) {
+				$grades['presentación'] = (float) $data['presentationGrade'];
+			} else {
+				$grades['presentación'] = (float) $data['presentationWeight'] * (float) $data['presentationRubric'];
+			}
+
+			if (!empty($data['colaborationGrade'])) {
+				$grades['colaboración'] = (float) $data['colaborationGrade'];
+			} else {
+				$grades['colaboración'] = (float) $data['colaborationWeight'] * (float) $data['colaborationRubric'];
+			}
+
+			if (!empty($data['organizationGrade'])) {
+				$grades['organización'] = (float) $data['organizationGrade'];
+			} else {
+				$grades['organización'] = (float) $data['organizationWeight'] * (float) $data['organizationRubric'];
+			}
+
+			if (!empty($data['referencesGrade'])) {
+				$grades['referencias'] = (float) $data['referencesGrade'];
+			} else {
+				$grades['referencias'] = (float) $data['referencesWeight'] * (float) $data['referencesRubric'];
+			}
+
+			if (!empty($data['languageGrade'])) {
+				$grades['lenguaje'] = (float) $data['languageGrade'];
+			} else {
+				$grades['lenguaje'] = (float) $data['languageWeight'] * (float) $data['languageRubric'];
+			}
+
+			$this->set('grades', $grades);
+		}
 	}
 }
