@@ -207,6 +207,85 @@ class SelectedPagesController extends AppController {
 			}
 
 			$this->set('grades', $grades);
+
+			//Grupales
+			$this->loadModel('Page');
+			$start_date = null;
+			$end_date = null;
+
+			if ($data['dates_or_range'] == 'periods') {
+				$this->loadModel('Period');
+				$period = $this->Period->find('first', array(
+						'fields' => array('Period.start_date', 'Period.end_date'),
+						'conditions' => array('Period.id' => $data['period_id'])
+					));
+				$start_date = $period['Period']['start_date'];
+				$end_date = $period['Period']['end_date'];
+			} else {
+				$start_date = $data['start_date'];
+				$end_date = $data['end_date'];
+			}
+			$start_date_format = date_format(date_create($start_date), 'YmdHis');
+			$end_date_format = date_format(date_create($end_date), 'YmdHis');
+			$query = 'SELECT rev_timestamp, rev_len, user_name FROM page JOIN revision ON page.page_id=revision.rev_page JOIN user ON revision.rev_user=user.user_id WHERE page.page_id IN ('.implode($this->Session->read('SelectedPages.evaluate'), ",").") AND revision.rev_timestamp BETWEEN '".$start_date_format."' AND '".$end_date_format."'";
+			$individual_contributions = $this->Page->getDataSource()->fetchAll($query);
+
+			$datos = array();
+            foreach ($individual_contributions as $ind_contribution) {
+                    $datos[] = array(
+                    	'user_name' => $ind_contribution['user']['user_name'],
+                    	'rev_len' => $ind_contribution['revision']['rev_len'],
+                    	'rev_timestamp' => $ind_contribution['revision']['rev_timestamp']
+                    	);
+            }
+
+            $fechas = array();
+            $usuarios = array();
+
+            foreach ($datos as $registro) {
+                    $fecha_actual = substr($registro['rev_timestamp'], 0, 8);
+                    $usuario = $registro['user_name'];
+
+                    if (!in_array($fecha_actual, $fechas)) {
+                            $fechas[] = $fecha_actual;
+                    }
+
+                    if (!in_array($usuario, $usuarios)) {
+                            $usuarios[] = $usuario;
+                    }
+            }
+
+            sort($usuarios);
+
+            $tabla_principal;
+
+            foreach($usuarios as $usuario) {
+                    foreach($fechas as $fecha) {
+                            $datos_por_fecha[$fecha] = 0;
+                    }
+                    $tabla_principal[$usuario] = $datos_por_fecha;
+            }
+
+            $dato_anterior = 0;
+            foreach ($datos as $dato) {
+                    $tabla_principal[$dato['user_name']][substr($dato['rev_timestamp'], 0, 8)] += $dato['rev_len'] - $dato_anterior;
+                    $dato_anterior = $dato['rev_len'];
+            }
+
+            $totales_por_usuario = array();
+
+            foreach($usuarios as $usuario) {
+            	$totales_por_usuario[$usuario] = 0;
+            }
+
+            foreach ($usuarios as $usuario) {
+                    foreach ($fechas as $fecha) {
+                            $totales_por_usuario[$usuario] += $tabla_principal[$usuario][$fecha];
+                    }
+            }
+
+            pr($tabla_principal);
+            pr($totales_por_usuario);
 		}
 	}
 }

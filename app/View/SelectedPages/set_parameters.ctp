@@ -302,7 +302,7 @@
 	<div class="form-group">
 		<label class="col-sm-4 control-label">Periodo</label>
 		<div class="col-sm-8">
-			<select class="form-control">
+			<select class="form-control" name="data[Parameters][period_id]">
 				<?php foreach($periods as $period): ?>
 					<option value=<?php echo '"'.$period['Period']['id'].'"'; ?>><?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?></option>
 				<?php endforeach; ?>
