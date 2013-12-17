@@ -12,7 +12,7 @@
 		<div class="form-group">
 			<label class="col-sm-4 col-sm-offset-2 control-label">Puntos Oro</label>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="data[Parameters][goldPoints]" value="10">
+				<input type="text" class="form-control" name="data[Parameters][goldPoints]" value="10" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100">
 			</div>
 		</div>
 		<ul>
@@ -26,8 +26,8 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Criterio</th>
-				<th>Rúbrica</th>
+				<th class="col-sm-1">Criterio</th>
+				<th class="col-sm-5	">Rúbrica</th>
 				<th>Nota</th>
 				<th>Peso</th>
 			</tr>
@@ -37,7 +37,7 @@
 			<tr>
 				<td>Contenido</td>
 				<td>
-					<select class="form-control" name="data[Parameters][contentRubric]">
+					<select class="form-control col-sm-6" name="data[Parameters][contentRubric]">
 						<option value="0">Nada</option>
 						<option value="0.25">Esfuerzo mínimo</option>
 						<option value="0.50">Información esencial</option>
@@ -46,10 +46,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][contentGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][contentGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][contentWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][contentWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -64,10 +70,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][presentationGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][presentationGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][presentationWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][presentationWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -82,10 +94,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][colaborationGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][colaborationGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][colaborationWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][colaborationWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -100,10 +118,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][organizationGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][organizationGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][organizationWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][organizationWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -118,10 +142,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][referencesGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][referencesGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][referencesWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][referencesWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -136,10 +166,16 @@
 					</select>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][languageGrade]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][languageGrade]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 				<td>
-					<input type="text" class="form-control" type="text" name="data[Parameters][languageWeight]">
+					<div class="input-group">
+						<input type="text" class="form-control" type="text" data-validation="number" data-validation-allowing="range[1;100],float" data-validation-error-msg="Ingrese un puntaje de 1-100" data-validation-optional="true" name="data[Parameters][languageWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 		</tbody>
@@ -150,7 +186,7 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Criterio</th>
+				<th class="col-sm-6">Criterio</th>
 				<th>Peso</th>
 			</tr>
 		</thead>
@@ -158,13 +194,19 @@
 			<tr>
 				<td>Consistencia en el tiempo</td>
 				<td>
-					<input class="form-control" type="text" name="data[Parameters][consistencyWeight]">
+					<div class="input-group">
+						<input class="form-control" type="text" name="data[Parameters][consistencyWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 			<tr>
 				<td>Contribución</td>
 				<td>
-					<input class="form-control" type="text" name="data[Parameters][contributionWeight]">
+					<div class="input-group">
+						<input class="form-control" type="text" name="data[Parameters][contributionWeight]">
+						<span class="input-group-addon">%</span>
+					</div>
 				</td>
 			</tr>
 		</tbody>
@@ -172,13 +214,13 @@
 	<h3>Elección de método de ponderación</h3>
 	<div class="form-group">
 		<label class="col-sm-4 control-label">Consitencia temporal</label>
-		<div class="col-sm-4">
+		<div class="col-sm-6">
 			<select class="form-control" name="data[Parameters][consistencyAlgorithm]">
 				<option value="1">Por número máximo de participaciones</option>
 				<option value="2">Ṕor número establecido de participaciones</option>
 			</select>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-2">
 			<input class="form-control" name="data[Parameters][maxParticipations]" value="5">
 		</div>
 		<div class="row">

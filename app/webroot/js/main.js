@@ -46,7 +46,8 @@ $(document).ready(function() {
     });
 
     $.validate({
-        language: spanishMessages
+        language: spanishMessages,
+        decimalSeparator: '.'
     });
 
     $('.calendar').datepicker().on('changeDate', function(ev) {
