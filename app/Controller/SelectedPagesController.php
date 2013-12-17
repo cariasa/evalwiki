@@ -353,16 +353,18 @@ public function evaluate() {
             	foreach ($usuarios as $usuario){
             		$total_usuario_contribucion[$usuario]=$totales_por_usuario[$usuario]/$contribucion_entre_usuarios;
             	}
-
+            	
             	$si_por_usuario=array();
             	foreach ($usuarios as $usuario){
-            		$si_por_usuario[$usuario]=($variable_alpha*($variable_alpha-$variable_init)*pow(M_E,(($total_usuario_contribucion[$usuario]/$variable_tao))));
+            		$si_por_usuario[$usuario]= ($variable_alpha*($variable_alpha-$variable_init)*pow(M_E,($total_usuario_contribucion[$usuario]/$variable_tao)));
             	}
             	$maximo_si=max($si_por_usuario);
+            	
             	$contribucion_por_usuario=array();
             	foreach ($usuarios as $usuario){
             		$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
             	}
+
             	$this->set('contribucion_por_usuario',$contribucion_por_usuario);
             }
 		}	
