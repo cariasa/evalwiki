@@ -2,6 +2,7 @@
 	<?php 
 		echo $this->Session->flash('failure-dismissable');
 		echo $this->Session->flash('success-dismissable');
+		echo $this->Session->flash('failure');
 	?>
 	<table class="table table-hover">
 		<thead>
@@ -15,7 +16,7 @@
 				<tr>
 					<td><?php echo $main_page['MainPage']['course_name']; ?></td>
 					<td><?php echo $this->Html->link('Eliminar', array('action' => 'delete', 'id' => $main_page['Page']['page_id']), array('class' => 'btn btn-danger')); ?></td>
-					<td><?php echo $this->Html->link('Actualizar', array('action' => 'edit', $main_page['Page']['page_id']), array('class' => 'btn btn-info')); ?></td>
+					<td><?php echo $this->Html->link('Actualizar', array('action' => 'edit', $main_page['Page']['page_id']), array('class' => 'btn btn-primary')); ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>
