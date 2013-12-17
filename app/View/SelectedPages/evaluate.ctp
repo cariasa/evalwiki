@@ -40,10 +40,9 @@
 						<tr>
 							<td><?php echo $user; ?></td>
 							<td><?php echo number_format($consistencyGrades[$user] * $data['consistencyWeight'], 2); ?></td>
-							<td><?php echo 'contribución'; ?></td>
+							<td><?php echo number_format($contribucion_por_usuario[$user]*$data['contributionWeight'],2); ?></td>
 							<?php 
-								$current_grade = (array_sum(array_values($grades)) + ($consistencyGrades[$user] * $data['consistencyWeight'])) / 100.0 * $data['goldPoints'];
-							?>
+								$current_grade = (array_sum(array_values($grades)) + ($consistencyGrades[$user] * $data['consistencyWeight']) + ($contribucion_por_usuario[$user]*$data['contributionWeight'])) / 100.0 * $data['goldPoints']; ?>
 							<td><?php echo number_format($current_grade, 2); ?></td>
 						</tr>
 					<?php endforeach; ?>
