@@ -93,7 +93,7 @@ class SelectedPagesController extends AppController {
 
 		$this->redirect(array('action' => 'manage'));
 	}
-
+	
 	public function removeAll() {
 		if ($this->Session->check('SelectedPages.evaluate')) {
 			$this->Session->delete('SelectedPages.evaluate');
@@ -103,7 +103,7 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function setParameters() {
-
+		
 	}
 
 	public function evaluate() {
