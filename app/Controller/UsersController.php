@@ -45,6 +45,12 @@ class UsersController extends AppController {
 				$pass_parts = preg_split('/[:]/', $correct_password['User']['user_password']);
 				if ($pass_parts[3] == md5($pass_parts[2]."-".md5($pass))) {
 					if ($this->_isSysop($correct_password['User']['user_id']) || $this->_isTeacher($correct_password['User']['user_id'])) {
+						if ($this->_isSysop($correct_password['User']['user_id'])) {
+							$this->Session->write('User.type', 'admin');
+						} else {
+							$this->Session->write('User.type', 'teacher');
+						}
+
 						$this->Session->write('User.id', $correct_password['User']['user_id']);
 						$this->Session->write('User.name', $user);
 						$this->redirect(array('action' => 'home'));

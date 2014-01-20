@@ -51,6 +51,7 @@
 						<option value="0.50">Información esencial</option>
 						<option value="0.75">Muestra conocimiento del tema</option>
 						<option value="1.0">Cubre el tema a profundidad, con ejemplos</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>
@@ -81,6 +82,7 @@
 						<option value="0.50">Buen uso de atributos</option>
 						<option value="0.75">Calidad mejorada</option>
 						<option value="1.0">Ayuda a la comprensión</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>
@@ -110,6 +112,7 @@
 						<option value="0.50">Un 50%</option>
 						<option value="0.75">Un 75%</option>
 						<option value="1.0">Todos colaboraron</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>
@@ -139,6 +142,7 @@
 						<option value="0.50">Tiene organización lógica</option>
 						<option value="0.75">Usa secciones, enumeraciones</option>
 						<option value="1.0">La organización es ideal</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>
@@ -169,6 +173,7 @@
 						<option value="0.50">Tiene algunas</option>
 						<option value="0.75">No siguen APA</option>
 						<option value="1.0">Siguen APA</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>
@@ -198,6 +203,7 @@
 						<option value="0.50">Hay pocos errores</option>
 						<option value="0.75">Nivel de documento aceptable</option>
 						<option value="1.0">Es impecable</option>
+						<option value="1.2">Excede las espectativas (Extra)</option>
 					</select>
 				</td>
 				<td>

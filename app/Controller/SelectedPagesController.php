@@ -286,15 +286,30 @@ public function evaluate() {
             }
  
             $this->set('users', $usuarios);
+
+            pr($tabla_principal);
  
             if ($data['consistencyAlgorithm'] == 1) {
-            	$max_participation = count(array_values($tabla_principal[$usuarios[0]]));
+            	$max_participation = 0;
+            	foreach ($usuarios as $usuario) {
+            		$current_participation = 0;
+            		foreach($fechas as $fecha) {
+            			if(!$tabla_principal[$usuario][$fecha] == 0) {
+            				$current_participation++;
+            			}
+            		}
+
+            		if ($current_participation > $max_participation) {
+            			$max_participation = $current_participation;
+            		}
+            	}
+
             	$consistencyGrades = array();
  
             	foreach($usuarios as $usuario) {
             		$current_participation = 0;
             		foreach($fechas as $fecha) {
-            			if(!$tabla_principal[$usuario][$fecha] == 0) {
+            			if($tabla_principal[$usuario][$fecha] != 0) {
             				$current_participation++;
             			}
             		}
@@ -309,7 +324,7 @@ public function evaluate() {
             	foreach($usuarios as $usuario) {
             		$current_participation = 0;
             		foreach($fechas as $fecha) {
-            			if(!$tabla_principal[$usuario][$fecha] == 0) {
+            			if(!$tabla_principal[$usuario][$fecha] != 0) {
             				$current_participation++;
             			}
             		}
