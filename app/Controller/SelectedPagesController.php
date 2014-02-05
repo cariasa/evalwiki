@@ -383,6 +383,16 @@ class SelectedPagesController extends AppController {
 			}
 
 			$this->set('contribucion_por_usuario',$contribucion_por_usuario);
-		}	
+		}
+
+		//Deducción de la nota grupal: 80% depende de las participaciones individuales
+		$nota_grupal = array_sum(array_values($grades));
+		$final_grades_per_user = array();
+		foreach ($usuarios as $usuario) {
+			$nota_individual = ($consistencyGrades[$usuario] * $data['consistencyWeight']) + ($contribucion_por_usuario[$usuario]*$data['contributionWeight']);
+			$final_grades_per_user[$usuario] = $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+		}
+		$this->set('final_grades_per_user', $final_grades_per_user);
+		pr($final_grades_per_user);	
 	}
 }

@@ -42,7 +42,10 @@
 							<td><?php echo number_format($consistencyGrades[$user] * $data['consistencyWeight'], 2); ?></td>
 							<td><?php echo number_format($contribucion_por_usuario[$user]*$data['contributionWeight'],2); ?></td>
 							<?php 
-								$current_grade = (array_sum(array_values($grades)) + ($consistencyGrades[$user] * $data['consistencyWeight']) + ($contribucion_por_usuario[$user]*$data['contributionWeight'])) / 100.0 * $data['goldPoints']; ?>
+								//(array_sum(array_values($grades)) esta es la nota grupal debería de modificarse para 
+								//ser adaptada al 80% de dependencia con la nota individial mover todo esto
+								//para el controller
+								$current_grade = $final_grades_per_user[$user] / 100.0 * $data['goldPoints']; ?>
 							<td><?php echo number_format($current_grade, 2); ?></td>
 						</tr>
 					<?php endforeach; ?>
