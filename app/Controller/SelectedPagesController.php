@@ -334,65 +334,66 @@ class SelectedPagesController extends AppController {
 				$this->set('consistencyGrades', $consistencyGrades);
 			}
 
-			$this->set('users', $usuarios);
+			if($data['contributionAlgorithm']==1){
+				$total_contribucion=0;
+				foreach ($usuarios as $usuario){
+					$total_contribucion+=$totales_por_usuario[$usuario];
+				}
+				$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
 
-		}
-
-		if($data['contributionAlgorithm']==1){
-			$total_contribucion=0;
-			foreach ($usuarios as $usuario){
-				$total_contribucion+=$totales_por_usuario[$usuario];
+				$total_usuario_contribucion=array();
+				foreach ($usuarios as $usuario){
+					$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
+				}
+				$contribucion_por_usuario=array();
+				$maximo_contribucion=max($total_usuario_contribucion);
+				foreach ($usuarios as $usuario){
+					$contribucion_por_usuario[$usuario]=$total_usuario_contribucion[$usuario]/$maximo_contribucion;
+				}
+				$this->set('contribucion_por_usuario',$contribucion_por_usuario);
 			}
-			$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
+			elseif ($data['contributionAlgorithm']==2) {
+				//Parámetros necesarios
+				$variable_alpha=100;
+				$variable_tao=0.6;
+				$variable_init=0;
+				$total_contribucion=0;
 
-			$total_usuario_contribucion=array();
-			foreach ($usuarios as $usuario){
-				$total_usuario_contribucion[$usuario]=$totales_por_usuario[$usuario]/$contribucion_entre_usuarios;
-			}
-			$contribucion_por_usuario=array();
-			$maximo_contribucion=max($total_usuario_contribucion);
-			foreach ($usuarios as $usuario){
-				$contribucion_por_usuario[$usuario]=$total_usuario_contribucion[$usuario]/$maximo_contribucion;
-			}
-			$this->set('contribucion_por_usuario',$contribucion_por_usuario);
-		}
-		elseif ($data['contributionAlgorithm']==2) {
-			$variable_alpha=100;
-			$variable_tao=0.6;
-			$variable_init=0;
-			$total_contribucion=0;
-			foreach ($usuarios as $usuario){
-				$total_contribucion+=$totales_por_usuario[$usuario];
-			}
-			$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
+				pr($totales_por_usuario);
+				foreach ($usuarios as $usuario){
+					$total_contribucion+=$totales_por_usuario[$usuario];
+				}
+				$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
 
-			$total_usuario_contribucion=array();
-			foreach ($usuarios as $usuario){
-				$total_usuario_contribucion[$usuario]=$totales_por_usuario[$usuario]/$contribucion_entre_usuarios;
-			}
+				$total_usuario_contribucion=array();
+				foreach ($usuarios as $usuario){
+					$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
+				}
 
-			$si_por_usuario=array();
-			foreach ($usuarios as $usuario){
-				$si_por_usuario[$usuario]= ($variable_alpha*($variable_alpha-$variable_init)*pow(M_E,($total_usuario_contribucion[$usuario]/$variable_tao)));
-			}
-			$maximo_si=max($si_por_usuario);
+				$si_por_usuario=array();
+				foreach ($usuarios as $usuario){
+					$si_por_usuario[$usuario]= $variable_alpha-($variable_alpha-$variable_init)*pow(M_E,-$total_usuario_contribucion[$usuario]/$variable_tao);
+				}
+				$maximo_si=max($si_por_usuario);
 
-			$contribucion_por_usuario=array();
-			foreach ($usuarios as $usuario){
-				$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
+				$contribucion_por_usuario=array();
+				foreach ($usuarios as $usuario){
+					$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
+				}
+
+				$this->set('contribucion_por_usuario',$contribucion_por_usuario);
+				pr($contribucion_por_usuario);
 			}
 
-			$this->set('contribucion_por_usuario',$contribucion_por_usuario);
-		}
-
-		//Deducción de la nota grupal: 80% depende de las participaciones individuales
-		$nota_grupal = array_sum(array_values($grades));
-		$final_grades_per_user = array();
-		foreach ($usuarios as $usuario) {
-			$nota_individual = ($consistencyGrades[$usuario] * $data['consistencyWeight']) + ($contribucion_por_usuario[$usuario]*$data['contributionWeight']);
-			$final_grades_per_user[$usuario] = $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
-		}
-		$this->set('final_grades_per_user', $final_grades_per_user);
-		pr($final_grades_per_user);	
+			//Deducción de la nota grupal: 80% depende de las participaciones individuales
+			$nota_grupal = array_sum(array_values($grades));
+			$final_grades_per_user = array();
+			foreach ($usuarios as $usuario) {
+				$nota_individual = ($consistencyGrades[$usuario] * $data['consistencyWeight']) + ($contribucion_por_usuario[$usuario]*$data['contributionWeight']);
+				$final_grades_per_user[$usuario] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+			}
+			$this->set('final_grades_per_user', $final_grades_per_user);
+			pr($final_grades_per_user);
+		}	
 	}
 }
