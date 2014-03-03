@@ -10,7 +10,8 @@
 		echo $this->Form->create('SelectedPages', array(
 			'action' => 'evaluate', 
 			'class' => 'form-horizontal', 
-			'role' => 'form')); 
+			'role' => 'form',
+			'autocomplete' => 'off')); 
 	?>
 
 	<div class="well">
@@ -269,6 +270,7 @@
 			<select class="form-control" name="data[Parameters][consistencyAlgorithm]">
 				<option value="1">Por número máximo de participaciones</option>
 				<option value="2">Ṕor número establecido de participaciones</option>
+				<option value="3">Por número establecido de participaciones semanales</option>
 			</select>
 		</div>
 		<div class="col-sm-2">

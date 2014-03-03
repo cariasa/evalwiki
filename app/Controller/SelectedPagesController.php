@@ -315,7 +315,7 @@ class SelectedPagesController extends AppController {
 				}
 
 				$this->set('consistencyGrades', $consistencyGrades);
-			} else {
+			} elseif ($data['consistencyAlgorithm'] == 2) {
 				$max_participation = $data['maxParticipations'];
 				$consistencyGrades = array();
 
@@ -331,6 +331,26 @@ class SelectedPagesController extends AppController {
 					$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
 				}
 
+				$this->set('consistencyGrades', $consistencyGrades);
+			} else {
+				$max_participation = $data['maxParticipations'];
+				$consistencyGrades = array();
+				$d_start = new DateTime($start_date);
+				$d_end = new DateTime($end_date);
+				
+				foreach($usuarios as $usuario) {
+					$current_participation = 0;
+					foreach($fechas as $fecha) {
+						if (!$tabla_principal[$usuario][$fecha] != 0) {
+							$current_participation++;
+						}
+					}
+
+					$weeks_diff = intval($d_start->diff($d_end)->format('%a')) / (float) 7;
+
+					$grade = (float) $current_participation / (float) ($max_participation * $weeks_diff);
+					$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
+				}
 				$this->set('consistencyGrades', $consistencyGrades);
 			}
 
@@ -359,7 +379,6 @@ class SelectedPagesController extends AppController {
 				$variable_init=0;
 				$total_contribucion=0;
 
-				pr($totales_por_usuario);
 				foreach ($usuarios as $usuario){
 					$total_contribucion+=$totales_por_usuario[$usuario];
 				}
@@ -382,7 +401,6 @@ class SelectedPagesController extends AppController {
 				}
 
 				$this->set('contribucion_por_usuario',$contribucion_por_usuario);
-				pr($contribucion_por_usuario);
 			}
 
 			//Deducción de la nota grupal: 80% depende de las participaciones individuales
@@ -393,7 +411,6 @@ class SelectedPagesController extends AppController {
 				$final_grades_per_user[$usuario] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
 			}
 			$this->set('final_grades_per_user', $final_grades_per_user);
-			pr($final_grades_per_user);
 		}	
 	}
 }
