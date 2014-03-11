@@ -338,19 +338,33 @@ class SelectedPagesController extends AppController {
 				$d_start = new DateTime($start_date);
 				$d_end = new DateTime($end_date);
 				
+				//Creando el arreglo de semanas por usuario
+				$weeks_diff = (int) (intval($d_start->diff($d_end)->format('%a')) / 7);
+				$participaciones_usuarios_semanas = array();
 				foreach($usuarios as $usuario) {
-					$current_participation = 0;
+					$participaciones_usuarios_semanas[$usuario] = array();
+					for ($i = 0; $i < $weeks_diff; $i++) {
+						$participaciones_usuarios_semanas[$usuario][$i] = 0;
+					}
+				}
+
+				//Llenando en que semana estoy
+				foreach ($usuarios as $usuario) {
 					foreach($fechas as $fecha) {
-						if (!$tabla_principal[$usuario][$fecha] != 0) {
-							$current_participation++;
+						if ($tabla_principal[$usuario][$fecha] != 0) {
+							$current_diff = (int) (intval($d_start->diff(new DateTime($fecha))->format('%a')) / 7);
+							$participaciones_usuarios_semanas[$usuario][$current_diff]++; 
 						}
 					}
+					//Falta contar las participaciones por semana
+					$user_acum = 0;
+					for ($i = 0; $i < $weeks_diff; $i++) {
+						$user_acum += $participaciones_usuarios_semanas[$usuario][$i] / $max_participation > 1 ? 1 : $participaciones_usuarios_semanas[$usuario][$i] / $max_participation;
+					}
 
-					$weeks_diff = intval($d_start->diff($d_end)->format('%a')) / (float) 7;
-
-					$grade = (float) $current_participation / (float) ($max_participation * $weeks_diff);
-					$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
+					$consistencyGrades[$usuario] = $user_acum / $weeks_diff;
 				}
+
 				$this->set('consistencyGrades', $consistencyGrades);
 			}
 
