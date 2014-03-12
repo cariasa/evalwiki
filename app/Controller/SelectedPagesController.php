@@ -108,6 +108,142 @@ class SelectedPagesController extends AppController {
 		$this->set('periods', $periods);
 	}
 
+	public function consistencyAlgorithmMaxParticipation($tabla_principal, $usuarios, $fechas) {
+		$max_participation = 0;
+		foreach ($usuarios as $usuario) {
+			$current_participation = 0;
+			foreach($fechas as $fecha) {
+				if(!$tabla_principal[$usuario][$fecha] == 0) {
+					$current_participation++;
+				}
+			}
+
+			if ($current_participation > $max_participation) {
+				$max_participation = $current_participation;
+			}
+		}
+
+		$consistencyGrades = array();
+
+		foreach($usuarios as $usuario) {
+			$current_participation = 0;
+			foreach($fechas as $fecha) {
+				if($tabla_principal[$usuario][$fecha] != 0) {
+					$current_participation++;
+				}
+			}
+			$consistencyGrades[$usuario] = (float) $current_participation / (float) $max_participation;
+		}
+
+		return $consistencyGrades;
+	}
+
+	public function consistencyAlgorithmParticipationsSet($tabla_principal, $usuarios, $fechas, $max) {
+		$max_participation = $max;
+		$consistencyGrades = array();
+
+		foreach($usuarios as $usuario) {
+			$current_participation = 0;
+			foreach($fechas as $fecha) {
+				if(!$tabla_principal[$usuario][$fecha] != 0) {
+					$current_participation++;
+				}
+			}
+
+			$grade = (float) $current_participation / (float) $max_participation;
+			$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
+		}
+
+		return $consistencyGrades;
+	}
+
+	public function consistencyAlgorithmSemanalParticipations($tabla_principal, $usuarios, $fechas, $max, $start_date, $end_date) {
+		$max_participation = $max;
+		$consistencyGrades = array();
+		$d_start = new DateTime($start_date);
+		$d_end = new DateTime($end_date);
+		
+		//Creando el arreglo de semanas por usuario
+		$weeks_diff = (int) (intval($d_start->diff($d_end)->format('%a')) / 7);
+		$participaciones_usuarios_semanas = array();
+		foreach($usuarios as $usuario) {
+			$participaciones_usuarios_semanas[$usuario] = array();
+			for ($i = 0; $i < $weeks_diff; $i++) {
+				$participaciones_usuarios_semanas[$usuario][$i] = 0;
+			}
+		}
+
+		//Llenando en que semana estoy
+		foreach ($usuarios as $usuario) {
+			foreach($fechas as $fecha) {
+				if ($tabla_principal[$usuario][$fecha] != 0) {
+					$current_diff = (int) (intval($d_start->diff(new DateTime($fecha))->format('%a')) / 7);
+					$participaciones_usuarios_semanas[$usuario][$current_diff]++; 
+				}
+			}
+			//Falta contar las participaciones por semana
+			$user_acum = 0;
+			for ($i = 0; $i < $weeks_diff; $i++) {
+				$user_acum += $participaciones_usuarios_semanas[$usuario][$i] / $max_participation > 1 ? 1 : $participaciones_usuarios_semanas[$usuario][$i] / $max_participation;
+			}
+
+			$consistencyGrades[$usuario] = $user_acum / $weeks_diff;
+		}
+
+		return $sonsistencyGrades;
+	}
+
+	public function contributionAlgorithmNormalize($totales_por_usuario, $usuarios, $fechas) {
+		$total_contribucion=0;
+		foreach ($usuarios as $usuario){
+			$total_contribucion+=$totales_por_usuario[$usuario];
+		}
+		$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
+
+		$total_usuario_contribucion=array();
+		foreach ($usuarios as $usuario){
+			$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
+		}
+		$contribucion_por_usuario=array();
+		$maximo_contribucion=max($total_usuario_contribucion);
+		foreach ($usuarios as $usuario){
+			$contribucion_por_usuario[$usuario]=$total_usuario_contribucion[$usuario]/$maximo_contribucion;
+		}
+
+		return $contribucion_por_usuario;
+	}
+
+	public function contributionAlgorithmSmoothNormalize($totales_por_usuario, $usuarios, $fechas) {
+		//Parámetros necesarios
+		$variable_alpha=100;
+		$variable_tao=0.6;
+		$variable_init=0;
+		$total_contribucion=0;
+
+		foreach ($usuarios as $usuario){
+			$total_contribucion+=$totales_por_usuario[$usuario];
+		}
+		$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
+
+		$total_usuario_contribucion=array();
+		foreach ($usuarios as $usuario){
+			$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
+		}
+
+		$si_por_usuario=array();
+		foreach ($usuarios as $usuario){
+			$si_por_usuario[$usuario]= $variable_alpha-($variable_alpha-$variable_init)*pow(M_E,-$total_usuario_contribucion[$usuario]/$variable_tao);
+		}
+		$maximo_si=max($si_por_usuario);
+
+		$contribucion_por_usuario=array();
+		foreach ($usuarios as $usuario){
+			$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
+		}
+
+		return $contribucion_por_usuario;
+	}	
+
 	public function evaluate() {
 		if($this->request->is('post') && !empty($this->request->data)) {
 			$data = $this->request->data['Parameters'];
@@ -288,132 +424,25 @@ class SelectedPagesController extends AppController {
 			$this->set('users', $usuarios);
 
 			if ($data['consistencyAlgorithm'] == 1) {
-				$max_participation = 0;
-				foreach ($usuarios as $usuario) {
-					$current_participation = 0;
-					foreach($fechas as $fecha) {
-						if(!$tabla_principal[$usuario][$fecha] == 0) {
-							$current_participation++;
-						}
-					}
-
-					if ($current_participation > $max_participation) {
-						$max_participation = $current_participation;
-					}
-				}
-
-				$consistencyGrades = array();
-
-				foreach($usuarios as $usuario) {
-					$current_participation = 0;
-					foreach($fechas as $fecha) {
-						if($tabla_principal[$usuario][$fecha] != 0) {
-							$current_participation++;
-						}
-					}
-					$consistencyGrades[$usuario] = (float) $current_participation / (float) $max_participation;
-				}
-
+				$consistencyGrades = $this->consistencyAlgorithmMaxParticipation($tabla_principal, $usuarios, $fechas);
 				$this->set('consistencyGrades', $consistencyGrades);
+
 			} elseif ($data['consistencyAlgorithm'] == 2) {
-				$max_participation = $data['maxParticipations'];
-				$consistencyGrades = array();
-
-				foreach($usuarios as $usuario) {
-					$current_participation = 0;
-					foreach($fechas as $fecha) {
-						if(!$tabla_principal[$usuario][$fecha] != 0) {
-							$current_participation++;
-						}
-					}
-
-					$grade = (float) $current_participation / (float) $max_participation;
-					$consistencyGrades[$usuario] =  $grade > 1.0 ? 1.0 : $grade;
-				}
-
+				$consistencyGrades = $this->consistencyAlgorithmParticipationsSet($tabla_principal, $usuarios, $fechas, $data['maxParticipations']);
 				$this->set('consistencyGrades', $consistencyGrades);
+
 			} else {
-				$max_participation = $data['maxParticipations'];
-				$consistencyGrades = array();
-				$d_start = new DateTime($start_date);
-				$d_end = new DateTime($end_date);
-				
-				//Creando el arreglo de semanas por usuario
-				$weeks_diff = (int) (intval($d_start->diff($d_end)->format('%a')) / 7);
-				$participaciones_usuarios_semanas = array();
-				foreach($usuarios as $usuario) {
-					$participaciones_usuarios_semanas[$usuario] = array();
-					for ($i = 0; $i < $weeks_diff; $i++) {
-						$participaciones_usuarios_semanas[$usuario][$i] = 0;
-					}
-				}
-
-				//Llenando en que semana estoy
-				foreach ($usuarios as $usuario) {
-					foreach($fechas as $fecha) {
-						if ($tabla_principal[$usuario][$fecha] != 0) {
-							$current_diff = (int) (intval($d_start->diff(new DateTime($fecha))->format('%a')) / 7);
-							$participaciones_usuarios_semanas[$usuario][$current_diff]++; 
-						}
-					}
-					//Falta contar las participaciones por semana
-					$user_acum = 0;
-					for ($i = 0; $i < $weeks_diff; $i++) {
-						$user_acum += $participaciones_usuarios_semanas[$usuario][$i] / $max_participation > 1 ? 1 : $participaciones_usuarios_semanas[$usuario][$i] / $max_participation;
-					}
-
-					$consistencyGrades[$usuario] = $user_acum / $weeks_diff;
-				}
-
+				$consistencyGrades = $this->consistencyAlgorithmSemanalParticipations($tabla_principal, $usuarios, $fechas, $data['maxParticipations'], $start_date, $end_date);
 				$this->set('consistencyGrades', $consistencyGrades);
+
 			}
 
 			if($data['contributionAlgorithm']==1){
-				$total_contribucion=0;
-				foreach ($usuarios as $usuario){
-					$total_contribucion+=$totales_por_usuario[$usuario];
-				}
-				$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
-
-				$total_usuario_contribucion=array();
-				foreach ($usuarios as $usuario){
-					$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
-				}
-				$contribucion_por_usuario=array();
-				$maximo_contribucion=max($total_usuario_contribucion);
-				foreach ($usuarios as $usuario){
-					$contribucion_por_usuario[$usuario]=$total_usuario_contribucion[$usuario]/$maximo_contribucion;
-				}
+				$contribucion_por_usuario = $this->contributionAlgorithmNormalize($totales_por_usuario, $usuarios, $fechas);
 				$this->set('contribucion_por_usuario',$contribucion_por_usuario);
 			}
 			elseif ($data['contributionAlgorithm']==2) {
-				//Parámetros necesarios
-				$variable_alpha=100;
-				$variable_tao=0.6;
-				$variable_init=0;
-				$total_contribucion=0;
-
-				foreach ($usuarios as $usuario){
-					$total_contribucion+=$totales_por_usuario[$usuario];
-				}
-				$contribucion_entre_usuarios=$total_contribucion/count($usuarios);
-
-				$total_usuario_contribucion=array();
-				foreach ($usuarios as $usuario){
-					$total_usuario_contribucion[$usuario]=abs($totales_por_usuario[$usuario])/$contribucion_entre_usuarios;
-				}
-
-				$si_por_usuario=array();
-				foreach ($usuarios as $usuario){
-					$si_por_usuario[$usuario]= $variable_alpha-($variable_alpha-$variable_init)*pow(M_E,-$total_usuario_contribucion[$usuario]/$variable_tao);
-				}
-				$maximo_si=max($si_por_usuario);
-
-				$contribucion_por_usuario=array();
-				foreach ($usuarios as $usuario){
-					$contribucion_por_usuario[$usuario]=$si_por_usuario[$usuario]/$maximo_si;
-				}
-
+				$contribucion_por_usuario = $this->contributionAlgorithmSmoothNormalize($totales_por_usuario, $usuarios, $fechas);
 				$this->set('contribucion_por_usuario',$contribucion_por_usuario);
 			}
 
