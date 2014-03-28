@@ -10,8 +10,6 @@
 		$periods = array(
 			1 => 'Primer Periodo', 
 			2 => 'Segundo Periodo',
-			4 => 'Tercer Periodo',
-			5 => 'Cuarto Periodo'
 		);
 
 		$semester = array(
@@ -38,7 +36,7 @@
 
 	<div class="form-group">
 		<label class="control-label">Año</label>
-		<input type="text" class="form-control" name="data[Period][year]" required data-validation="custom" data-validation-regexp="[0-9]{4}" placeholder="2013">
+		<input type="text" class="form-control" name="data[Period][year]" required data-validation="custom" data-validation-regexp="[0-9]{4}" placeholder="2013" data-validation-error-msg="Ingrese un año correcto">
 	</div>
 
 	<div class="form-group">

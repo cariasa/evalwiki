@@ -66,4 +66,14 @@ $(document).ready(function() {
     $('.confirmation').on('click', function() {
         return confirm('¿Está seguro?');
     });
+
+    $('#PeriodSemester').on('change', function(e) {
+        if ($(this).val() == 1) {
+            $('#PeriodPeriod').empty();
+            $('#PeriodPeriod').html('<option value="1">Primer Periodo</option><option value="2">Segundo Periodo</option>');
+        } else {
+            $('#PeriodPeriod').empty();
+            $('#PeriodPeriod').html('<option value="4">Tercer Periodo</option><option value="5">Cuarto Periodo</option>');
+        }
+    });
 });
