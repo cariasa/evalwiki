@@ -321,7 +321,7 @@
 	<div class="form-group">
 		<label class="col-sm-4 control-label">Consitencia temporal</label>
 		<div class="col-sm-6">
-			<select class="form-control" name="data[Parameters][consistencyAlgorithm]">
+			<select class="form-control" name="data[Parameters][consistencyAlgorithm]" id="consistency-algorihtm">
 				<?php if (isset($previous_parameters)) : ?>
 					<option value="1" <?php if ($previous_parameters['consistencyAlgorithm'] == 1) {echo "selected";} ?>>Por número máximo de participaciones</option>
 					<option value="2" <?php if ($previous_parameters['consistencyAlgorithm'] == 2) {echo "selected";} ?>>Ṕor número establecido de participaciones</option>
@@ -334,7 +334,11 @@
 			</select>
 		</div>
 		<div class="col-sm-2">
-			<input class="form-control" name="data[Parameters][maxParticipations]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['maxParticipations'].'"' : print 'value="5"'; ?>>
+			<?php if (isset($previous_parameters)) : ?>
+				<input class="form-control" name="data[Parameters][maxParticipations]" <?php isset($previous_parameters['maxParticipations']) ? print 'value="'.$previous_parameters['maxParticipations'].'"' : print 'value="5"'; if ($previous_parameters['consistencyAlgorithm'] == 1) { echo ' disabled'; } ?> id="max-participation">
+			<?php else : ?>
+				<input class="form-control" name="data[Parameters][maxParticipations]" value="5" id="max-participation" disabled>
+			<?php endif; ?>
 		</div>
 		<div class="row">
 			<div class="col-sm-10 col-sm-offset-1">
@@ -368,10 +372,10 @@
 	<div class="radio">
 		<label class="control-label">
 			<?php if(isset($previous_parameters)) : ?>
-				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" <?php if ($previous_parameters['dates_or_range'] == 'periods') { echo "checked"; } ?> value="periods" >
+				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" <?php if ($previous_parameters['dates_or_range'] == 'periods') { echo "checked"; } ?> value="periods" class="dates-or-range" >
 				Por trimestre
 			<?php else : ?>
-				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="periods" >
+				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="periods" class="dates-or-range" >
 				Por trimestre
 			<?php endif; ?>
 		</label>
@@ -380,8 +384,8 @@
 	<div class="form-group">
 		<label class="col-sm-4 control-label">Periodo</label>
 		<div class="col-sm-8">
-			<select class="form-control" name="data[Parameters][period_id]">
-				<?php if (isset($previous_parameters)) : ?>
+			<select class="form-control" name="data[Parameters][period_id]" id="period-selector">
+				<?php if (isset($previous_parameters) and isset($previous_parameters['period_id'])) : ?>
 					<?php foreach($periods as $period): ?>
 						<option value=<?php echo '"'.$period['Period']['id'].'"'; if ($period['Period']['id'] == $previous_parameters['period_id']) { echo " selected"; } ?>><?php echo 'Semestre '.$period['Period']['semester'].' Periodo '.$period['Period']['period'].' Año '.$period['Period']['year']; ?></option>
 					<?php endforeach; ?>
@@ -396,11 +400,11 @@
 
 	<div class="radio">
 		<label class="control-label">
-		<?php if (isset($previous_parameters)) : ?>
-			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" <?php if ($previous_parameters['dates_or_range'] == 'range') { echo "checked"; } ?>>
+		<?php if (isset($previous_parameters) and isset($previous_parameters['dates_or_range'])) : ?>
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" <?php if ($previous_parameters['dates_or_range'] == 'range') { echo "checked"; } ?> class="dates-or-range">
 			Por rango de fechas
 		<?php else : ?>
-			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" >
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" class="dates-or-range" >
 			Por rango de fechas
 		<?php endif; ?>
 		</label>
@@ -409,10 +413,10 @@
 	<div class="form-group">
 		<label class="control-label col-sm-4">Fecha de inicio</label>
 		<div class="col-sm-8">
-			<?php if (isset($previous_parameters)) :?>
-				<input type="text" class="form-control calendar" name="data[Parameters][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.$previous_parameters['start_date'].'"'; ?>>
+			<?php if (isset($previous_parameters) and isset($previous_parameters['start_date'])) :?>
+				<input type="text" class="form-control calendar dates-rage" name="data[Parameters][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.$previous_parameters['start_date'].'"'; ?>>
 			<?php else : ?>
-				<input type="text" class="form-control calendar" name="data[Parameters][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d').'"'; ?>>
+				<input type="text" class="form-control calendar dates-rage" name="data[Parameters][start_date]" required data-validation="date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" data-validation-error-msg="Ingrese el formato correcto de fecha" id="StartDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d').'"'; ?>>
 			<?php endif; ?>
 		</div>
 	</div>
@@ -420,10 +424,10 @@
 	<div class="form-group">
 		<label class="control-label col-sm-4">Fecha Final</label>
 		<div class="col-sm-8">
-			<?php if (isset($previous_parameters)) : ?>
-				<input type="text" class="form-control calendar" name="data[Parameters][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.$previous_parameters['end_date'].'"'; ?>>
+			<?php if (isset($previous_parameters) and isset($previous_parameters['end_date'])) : ?>
+				<input type="text" class="form-control calendar dates-rage" name="data[Parameters][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.$previous_parameters['end_date'].'"'; ?>>
 			<?php else : ?>
-				<input type="text" class="form-control calendar" name="data[Parameters][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d', strtotime('+3 months')).'"'; ?>>
+				<input type="text" class="form-control calendar dates-rage" name="data[Parameters][end_date]" required data-validation="end_date date" data-validation-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" id="EndDate" data-date-format="yyyy-mm-dd" value=<?php echo '"'.date('Y-m-d', strtotime('+3 months')).'"'; ?>>
 			<?php endif; ?>
 		</div>
 	</div>

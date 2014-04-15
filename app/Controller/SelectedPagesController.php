@@ -103,7 +103,6 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function setParameters() {
-		pr($this->Session->read('Parameters.all'));
 		$this->loadModel('Period');
 		$periods = $this->Period->find('all', array('fields' => array('Period.id', 'Period.period', 'Period.semester', 'Period.year')));
 		$this->set('periods', $periods);

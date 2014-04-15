@@ -76,4 +76,23 @@ $(document).ready(function() {
             $('#PeriodPeriod').html('<option value="4">Tercer Periodo</option><option value="5">Cuarto Periodo</option>');
         }
     });
+
+    $('#consistency-algorihtm').on('change', function(e) {
+        if ($(this).val() == 1) {
+            $('#max-participation').attr('disabled','disabled');
+        } else {
+            $('#max-participation').removeAttr('disabled');
+        }
+    });
+
+    $('.dates-or-range').on('change', function(e) {
+        if ($(this).val() == 'periods') {
+            $('#period-selector').removeAttr('disabled');
+            $('.dates-rage').attr('disabled','disabled');
+        } else {
+            $('#period-selector').attr('disabled','disabled');
+            $('.dates-rage').removeAttr('disabled');
+        }
+    });
+    $('.dates-or-range').trigger('change');
 });
