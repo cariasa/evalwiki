@@ -103,9 +103,13 @@ class SelectedPagesController extends AppController {
 	}
 
 	public function setParameters() {
+		pr($this->Session->read('Parameters.all'));
 		$this->loadModel('Period');
 		$periods = $this->Period->find('all', array('fields' => array('Period.id', 'Period.period', 'Period.semester', 'Period.year')));
 		$this->set('periods', $periods);
+		if ($this->Session->check('Parameters.all')) {
+			$this->set('previous_parameters', $this->Session->read('Parameters.all'));	
+		}
 	}
 
 	public function consistencyAlgorithmMaxParticipation($tabla_principal, $usuarios, $fechas) {
@@ -247,6 +251,7 @@ class SelectedPagesController extends AppController {
 	public function evaluate() {
 		if($this->request->is('post') && !empty($this->request->data)) {
 			$data = $this->request->data['Parameters'];
+			$this->Session->write('Parameters.all', $data);
 			$this->set('data', $data);
 
 			$sum_percent = (float) $data['contentWeight'] +
