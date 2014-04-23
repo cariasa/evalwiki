@@ -375,7 +375,7 @@
 				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" <?php if ($previous_parameters['dates_or_range'] == 'periods') { echo "checked"; } ?> value="periods" class="dates-or-range" >
 				Por trimestre
 			<?php else : ?>
-				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="periods" class="dates-or-range" >
+				<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="periods" class="dates-or-range" >
 				Por trimestre
 			<?php endif; ?>
 		</label>
@@ -401,10 +401,10 @@
 	<div class="radio">
 		<label class="control-label">
 		<?php if (isset($previous_parameters) and isset($previous_parameters['dates_or_range'])) : ?>
-			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" <?php if ($previous_parameters['dates_or_range'] == 'range') { echo "checked"; } ?> class="dates-or-range">
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="range" <?php if ($previous_parameters['dates_or_range'] == 'range') { echo "checked"; } ?> class="dates-or-range">
 			Por rango de fechas
 		<?php else : ?>
-			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" value="range" class="dates-or-range" >
+			<input type="radio" name="data[Parameters][dates_or_range]" id="datesOrRange" checked value="range" class="dates-or-range" >
 			Por rango de fechas
 		<?php endif; ?>
 		</label>
