@@ -28,7 +28,7 @@ class MainPagesController extends AppController {
 		$this->loadModel('Page');
 		$fields = array('Page.page_id', 'Page.page_title');
 		$main_pages_ids = array_values($this->MainPage->find('list', array('fields'=> array('MainPage.page_id'))));
-		$conditions = array('NOT' => array('Page.page_id' => $main_pages_ids));
+		$conditions = array('NOT' => array('Page.page_id' => $main_pages_ids), "Page.page_namespace" => 0);
 		$order = 'Page.page_title';
 		$pages_isnt_main_pages = $this->Page->find('list', array('fields' => $fields, 'conditions' => $conditions, 'order' => $order));
 		
