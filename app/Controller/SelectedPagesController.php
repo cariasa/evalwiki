@@ -454,8 +454,11 @@ class SelectedPagesController extends AppController {
 			$nota_grupal = array_sum(array_values($grades));
 			$final_grades_per_user = array();
 			foreach ($usuarios as $usuario) {
+				$current_grades_array = array();
 				$nota_individual = ($consistencyGrades[$usuario] * $data['consistencyWeight']) + ($contribucion_por_usuario[$usuario]*$data['contributionWeight']);
-				$final_grades_per_user[$usuario] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+				$current_grades_array['groupal_grade'] = $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+				$current_grades_array['final_grade'] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+				$final_grades_per_user[$usuario] = $current_grades_array;
 			}
 			$this->set('final_grades_per_user', $final_grades_per_user);
 		}	
