@@ -463,4 +463,38 @@ class SelectedPagesController extends AppController {
 			$this->set('final_grades_per_user', $final_grades_per_user);
 		}	
 	}
+
+	public function userRevision() {
+		if ($this->request->is('get') && !empty($this->request->named) && $this->Session->check('Parameters.all') && $this->Session->check('SelectedPages.evaluate')) {
+			// Cargando datos y creando variables necesarias;
+			$this->loadModel('User');
+			$this->loadModel('Page');
+			$db = $db = $this->User->getDataSource();
+			$date_parameters = $this->Session->read('Parameters.all');
+			$evaluated_pages_ids = $this->Session->read('SelectedPages.evaluate');
+
+			$user_revision = null;
+			$start_date = null;
+			$end_date = null;
+
+			if ($date_parameters['dates_or_range'] == 'periods') {
+				$this->loadModel('Period');
+				$period = $this->Period->find('first', array(
+					'fields' => array('Period.start_date', 'Period.end_date'),
+					'conditions' => array('Period.id' => $date_parameters['period_id'])
+					));
+				$start_date = $period['Period']['start_date'];
+				$end_date = $period['Period']['end_date'];
+			} else {
+				$start_date = $date_parameters['start_date'];
+				$end_date = $date_parameters['end_date'];
+			}
+			$start_date_format = date_format(date_create($start_date), 'YmdHis');
+			$end_date_format = date_format(date_create($end_date), 'YmdHis');
+
+			$query = "select T.old_text from revision R join user U on U.user_id = R.rev_user join text T on R.rev_text_id = T.old_id where R.rev_timestamp between ". $start_date_format . " and ". $end_date_format ." and R.rev_page in (".implode($this->Session->read('SelectedPages.evaluate'), ",").") and U.user_name = '". $this->request->named['user_name']."'";
+			$user_revision = $db->fetchAll($query);
+			$this->set('user_revision', $user_revision);
+		}
+	}
 }
