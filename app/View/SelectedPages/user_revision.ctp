@@ -4,7 +4,7 @@
 			<div class="panel-heading">Contrubución</div>
 			
 			<div class="panel-body">
-				<pre><?php echo $revision['T']['old_text']; ?></pre>
+				<pre><?php echo $revision; ?></pre>
 			</div>
 		</div>
 	<?php endforeach; ?>

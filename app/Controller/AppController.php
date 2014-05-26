@@ -21,6 +21,7 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 App::uses('Controller', 'Controller');
+require_once(APP .  'Vendor'. DS . 'class.Diff.php');
 /**
  * Application Controller
  *
