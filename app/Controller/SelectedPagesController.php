@@ -492,7 +492,7 @@ class SelectedPagesController extends AppController {
 			$start_date_format = date_format(date_create($start_date), 'YmdHis');
 			$end_date_format = date_format(date_create($end_date), 'YmdHis');
 
-			$query = "select T.old_text, U.user_name, R.rev_page from revision R join user U on U.user_id = R.rev_user join text T on R.rev_text_id = T.old_id where R.rev_timestamp between ". $start_date_format . " and ". $end_date_format ." and R.rev_page in (".implode($this->Session->read('SelectedPages.evaluate'), ",").") order by rev_page, rev_timestamp;";
+			$query = "select T.old_text, U.user_name, R.rev_page, R.rev_timestamp from revision R join user U on U.user_id = R.rev_user join text T on R.rev_text_id = T.old_id where R.rev_timestamp between ". $start_date_format . " and ". $end_date_format ." and R.rev_page in (".implode($this->Session->read('SelectedPages.evaluate'), ",").") order by rev_page, rev_timestamp;";
 			$user_revision_gross = $db->fetchAll($query);
 			$prev_revision = "";
 			$prev_page = -1;
@@ -504,7 +504,12 @@ class SelectedPagesController extends AppController {
 				}
 
 				if ($current_revision['U']['user_name'] == $this->request->named['user_name']) {
-					$user_revision[] = Diff::toHTML(Diff::compare($prev_revision, $current_revision['T']['old_text']));
+					list($y, $m, $d, $h, $mi, $s) = sscanf($current_revision['R']['rev_timestamp'], '%4d%02d%02d%02d%02d%02d');
+
+					$user_revision[] = array(
+						'text' => Diff::toHTML(Diff::compare($prev_revision, $current_revision['T']['old_text'])),
+						'time' => sprintf("%02d/%02d/%4d a las %02d:%02d:%02d", $d, $m, $y, $h, $mi, $s),
+					);
 				}
 
 				$prev_revision = $current_revision['T']['old_text'];
