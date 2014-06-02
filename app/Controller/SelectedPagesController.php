@@ -193,7 +193,7 @@ class SelectedPagesController extends AppController {
 			$consistencyGrades[$usuario] = $user_acum / $weeks_diff;
 		}
 
-		return $sonsistencyGrades;
+		return $consistencyGrades;
 	}
 
 	public function contributionAlgorithmNormalize($totales_por_usuario, $usuarios, $fechas) {
