@@ -368,7 +368,16 @@ class SelectedPagesController extends AppController {
 			}
 			$start_date_format = date_format(date_create($start_date), 'YmdHis');
 			$end_date_format = date_format(date_create($end_date), 'YmdHis');
-			$query = 'SELECT rev_timestamp, rev_len, user_name FROM page JOIN revision ON page.page_id=revision.rev_page JOIN user ON revision.rev_user=user.user_id WHERE page.page_id IN ('.implode($this->Session->read('SelectedPages.evaluate'), ",").") AND revision.rev_timestamp BETWEEN '".$start_date_format."' AND '".$end_date_format."'";
+			$teachers_result = $this->Page->getDataSource()->fetchAll("select * from teachers");
+			$teachers_array = array();
+			// Teachers array
+			foreach ($teachers_result as $teacher) {
+				$teachers_array[] = $teacher['teachers']['id'];
+			}
+			$teachers_array[] = 1; // Adding Sysop
+
+			$query = 'SELECT rev_timestamp, rev_len, user_name FROM page JOIN revision ON page.page_id=revision.rev_page JOIN user ON revision.rev_user=user.user_id WHERE page.page_id IN ('.implode($this->Session->read('SelectedPages.evaluate'), ",").") AND revision.rev_timestamp BETWEEN '".$start_date_format."' AND '".$end_date_format."' and user.user_id not in (".implode($teachers_array, ",").")";
+			//pr($query);
 			$individual_contributions = $this->Page->getDataSource()->fetchAll($query);
 
 			$datos = array();
@@ -427,6 +436,11 @@ class SelectedPagesController extends AppController {
 
 			$this->set('users', $usuarios);
 
+			if (!isset($tabla_principal)) {
+				$this->Session->setFlash('No hay usuarios que evaluar en ese rango de fechas.', 'failure', array(), 'failure');
+				return $this->redirect(array('controller' => 'SelectedPages', 'action' => 'setParameters'));
+			}
+
 			if ($data['consistencyAlgorithm'] == 1) {
 				$consistencyGrades = $this->consistencyAlgorithmMaxParticipation($tabla_principal, $usuarios, $fechas);
 				$this->set('consistencyGrades', $consistencyGrades);
@@ -456,8 +470,13 @@ class SelectedPagesController extends AppController {
 			foreach ($usuarios as $usuario) {
 				$current_grades_array = array();
 				$nota_individual = ($consistencyGrades[$usuario] * $data['consistencyWeight']) + ($contribucion_por_usuario[$usuario]*$data['contributionWeight']);
-				$current_grades_array['groupal_grade'] = $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
-				$current_grades_array['final_grade'] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+				if ($data['contributionWeight'] != 0 || $data['consistencyWeight'] != 0) {
+					$current_grades_array['groupal_grade'] = $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+					$current_grades_array['final_grade'] = $nota_individual + $nota_grupal * 0.2 + $nota_grupal * 0.8 * ($nota_individual / ($data['consistencyWeight'] + $data['contributionWeight']));
+				} else {
+					$current_grades_array['groupal_grade'] = $nota_grupal;
+					$current_grades_array['final_grade'] = $nota_individual + $nota_grupal;
+				}
 				$final_grades_per_user[$usuario] = $current_grades_array;
 			}
 			$this->set('final_grades_per_user', $final_grades_per_user);

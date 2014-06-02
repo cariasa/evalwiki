@@ -356,7 +356,7 @@
 					<option value="2" <?php if ($previous_parameters['contributionAlgorithm'] == 2) {echo "selected";} ?>>Suavizar y luego normalizar</option>
 				<?php else : ?>
 					<option value="1">Normalizar con respecto al total de contribuciones</option>
-					<option value="2">Suavizar y luego normalizar</option>
+					<option value="2" selected>Suavizar y luego normalizar</option>
 				<?php endif; ?>
 			</select>
 		</div>
