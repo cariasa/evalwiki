@@ -32,4 +32,7 @@
 			</table>
 		</div>
 	</div>
+	<div class="row">
+		<?php echo $this->Html->link('<- Volver', array('action' => 'setParameters'), array('class' => 'btn btn-info')); ?>
+	</div>
 </main>

@@ -167,7 +167,7 @@ class SelectedPagesController extends AppController {
 		$d_end = new DateTime($end_date);
 		
 		//Creando el arreglo de semanas por usuario
-		$weeks_diff = (int) (intval($d_start->diff($d_end)->format('%a')) / 7);
+		$weeks_diff = ceil(intval($d_start->diff($d_end)->format('%a')) / 7);
 		$participaciones_usuarios_semanas = array();
 		foreach($usuarios as $usuario) {
 			$participaciones_usuarios_semanas[$usuario] = array();
