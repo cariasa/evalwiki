@@ -4,7 +4,8 @@
 			<div class="panel-heading">Contrubución efectuada el <?php echo $revision['time']; ?></div>
 			
 			<div class="panel-body">
-				<pre><?php echo $revision['text']; ?></pre>
+				<?php echo $this->Html->link("Ver", array('action' => 'userRevisionDetails', 'text' => $revision['text']), array('class' => 'btn btn-sm btn-default')); ?>
+				
 			</div>
 		</div>
 	<?php endforeach; ?>

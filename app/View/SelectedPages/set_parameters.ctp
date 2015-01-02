@@ -70,7 +70,7 @@
 							   	data-validation="number" data-validation-allowing="range[1;100],float" 
 							   	data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
 							   	name="data[Parameters][contentGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['contentGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -109,7 +109,7 @@
 						<input type="text" class="form-control" type="text" data-validation="number" 
 								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
 								data-validation-optional="true" name="data[Parameters][presentationGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['presentationGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -148,7 +148,7 @@
 						<input type="text" class="form-control" type="text" data-validation="number" 
 								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
 								data-validation-optional="true" name="data[Parameters][colaborationGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['colaborationGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -188,7 +188,7 @@
 								data-validation="number" data-validation-allowing="range[1;100],float" 
 								data-validation-error-msg="Puntaje del 1-100" data-validation-optional="true" 
 								name="data[Parameters][organizationGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['organizationGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -227,7 +227,7 @@
 						<input type="text" class="form-control" type="text" data-validation="number" 
 								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
 								data-validation-optional="true" name="data[Parameters][referencesGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['referencesGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -266,7 +266,7 @@
 						<input type="text" class="form-control weight-input" type="text" data-validation="number" 
 								data-validation-allowing="range[1;100],float" data-validation-error-msg="Puntaje del 1-100" 
 								data-validation-optional="true" name="data[Parameters][languageGrade]" <?php isset($previous_parameters) ? print 'value="'.$previous_parameters['languageGrade'].'"' : ""; ?>>
-						<span class="input-group-addon">%</span>
+						<!-- <span class="input-group-addon">%</span> -->
 					</div>
 				</td>
 				<td>
@@ -346,26 +346,8 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="form-group">
-		<label class="col-sm-4 control-label">Contribución</label>
-		<div class="col-sm-8">
-			<select class="form-control" name="data[Parameters][contributionAlgorithm]">
-				<?php if (isset($previous_parameters)) : ?>
-					<option value="1" <?php if ($previous_parameters['contributionAlgorithm'] == 1) {echo "selected";} ?>>Normalizar con respecto al total de contribuciones</option>
-					<option value="2" <?php if ($previous_parameters['contributionAlgorithm'] == 2) {echo "selected";} ?>>Suavizar y luego normalizar</option>
-				<?php else : ?>
-					<option value="1">Normalizar con respecto al total de contribuciones</option>
-					<option value="2" selected>Suavizar y luego normalizar</option>
-				<?php endif; ?>
-			</select>
-		</div>
-		<div class="row">
-			<div class="col-sm-10 col-sm-offset-1">
-				<span class="help-block">Define cómo se calculará la evaluación de las contribuciones, la suavización se hace por medio de una función exponencial con asíntota.</span>
-			</div>
-		</div>
-	</div>
+	<input type="hidden" name="data[Parameters][contributionAlgorithm]" value="2">
+	
 
 	<h3>Rango de fechas a evaluar</h3>
 

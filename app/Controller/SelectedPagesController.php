@@ -510,32 +510,37 @@ class SelectedPagesController extends AppController {
 			}
 			$start_date_format = date_format(date_create($start_date), 'YmdHis');
 			$end_date_format = date_format(date_create($end_date), 'YmdHis');
-
-			$query = "select T.old_text, U.user_name, R.rev_page, R.rev_timestamp from revision R join user U on U.user_id = R.rev_user join text T on R.rev_text_id = T.old_id where R.rev_timestamp between ". $start_date_format . " and ". $end_date_format ." and R.rev_page in (".implode($this->Session->read('SelectedPages.evaluate'), ",").") order by rev_page, rev_timestamp;";
+	
+			$query = "select R.rev_id, R.rev_timestamp from revision R join user U on U.user_id = R.rev_user where R.rev_timestamp between ". $start_date_format . " and ". $end_date_format ." and R.rev_page in (".implode($this->Session->read('SelectedPages.evaluate'), ",").") and U.user_name = '" . $this->request->named['user_name'] . "' order by rev_page, rev_timestamp;";
+			//$this->request->named['user_name']
 			$user_revision_gross = $db->fetchAll($query);
-			$prev_revision = "";
-			$prev_page = -1;
-			//pr($user_revision_gross);
-
+			
 			foreach ($user_revision_gross as $current_revision) {
-				if ($prev_page != $current_revision['R']['rev_page']) {
-					$prev_revision = "";
-				}
-
-				if ($current_revision['U']['user_name'] == $this->request->named['user_name']) {
-					list($y, $m, $d, $h, $mi, $s) = sscanf($current_revision['R']['rev_timestamp'], '%4d%02d%02d%02d%02d%02d');
-
-					$user_revision[] = array(
-						'text' => Diff::toHTML(Diff::compare($prev_revision, $current_revision['T']['old_text'])),
-						'time' => sprintf("%02d/%02d/%4d a las %02d:%02d:%02d", $d, $m, $y, $h, $mi, $s),
-					);
-				}
-
-				$prev_revision = $current_revision['T']['old_text'];
-				$prev_page = $current_revision['R']['rev_page'];
+				list($y, $m, $d, $h, $mi, $s) = sscanf($current_revision['R']['rev_timestamp'], '%4d%02d%02d%02d%02d%02d');
+				$user_revision[] = array(
+					'text' => $current_revision['R']['rev_id'],
+					'time' => sprintf("%02d/%02d/%4d a las %02d:%02d:%02d", $d, $m, $y, $h, $mi, $s),
+				);
 			}
-
+			
 			$this->set('user_revision', $user_revision);
+		
+		}
+	}
+
+	public function userRevisionDetails() {
+		if ($this->request->is('get') && !empty($this->request->named) && $this->Session->check('Parameters.all') && $this->Session->check('SelectedPages.evaluate')) {
+			$this->loadModel('User');
+			$this->loadModel('Page');
+			$db = $db = $this->User->getDataSource();
+			$query = "select T.old_text, R.rev_parent_id from text T join revision R on R.rev_text_id = T.old_id where R.rev_id = " . $this->request->named['text'] . ";";
+			$currentText = $db->fetchAll($query);
+
+			$query = "select T.old_text from text T join revision R on R.rev_text_id = T.old_id where R.rev_id = " . $currentText[0]['R']['rev_parent_id'] . ";";
+			$prevText = $db->fetchAll($query);
+
+			$finalText = Diff::toHTML(Diff::compare($prevText[0]['T']['old_text'], $currentText[0]['T']['old_text']));
+			$this->set('showText', $finalText);
 		}
 	}
 }
